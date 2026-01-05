@@ -55,12 +55,12 @@ The current behavior is analyzed in two distinct modes corresponding to the MATL
 * **Mode 1: Thyristor Conduction ($\alpha < \omega t < \pi$)**
     The source energizes the load. The current is governed by:
 
-    $$V_m \sin(\omega t) = L\frac{di_o}{dt} + R i_o$$
+$$V_m \sin(\omega t) = L\frac{di_o}{dt} + R i_o$$
 
 * **Mode 2: Freewheeling Diode Conduction ($\pi < \omega t < 2\pi+\alpha$)**
     The source is disconnected, and the stored energy in the inductor circulates through the diode. The source voltage is effectively zero:
     
-	$$0 = L\frac{di_o}{dt} + R i_o$$
+$$0 = L\frac{di_o}{dt} + R i_o$$
 
 ## 💻 MATLAB Code
 
