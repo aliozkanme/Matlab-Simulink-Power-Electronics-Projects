@@ -1,5 +1,5 @@
 Model {
-  Name			  "Project01"
+  Name			  "Simulink_Simulation"
   Version		  10.1
   SavedCharacterEncoding  "windows-1254"
   GraphicalInterface {
@@ -22,85 +22,85 @@ Model {
     NumExternalFileReferences 14
     ExternalFileReference {
       Reference		      "powerlib/Measurements/Current Measurement"
-      Path		      "Project01/Current Measurement"
+      Path		      "Simulink_Simulation/Current Measurement"
       SID		      "4"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Measurements/Current Measurement"
-      Path		      "Project01/Diode Current"
+      Path		      "Simulink_Simulation/Diode Current"
       SID		      "6"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Power\nElectronics/Diode"
-      Path		      "Project01/Freewheeling Diode"
+      Path		      "Simulink_Simulation/Freewheeling Diode"
       SID		      "5"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Elements/Ground"
-      Path		      "Project01/Ground"
+      Path		      "Simulink_Simulation/Ground"
       SID		      "24"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Measurements/Current Measurement"
-      Path		      "Project01/Load Current"
+      Path		      "Simulink_Simulation/Load Current"
       SID		      "9"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Measurements/Voltage Measurement"
-      Path		      "Project01/Load Voltage"
+      Path		      "Simulink_Simulation/Load Voltage"
       SID		      "10"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib_meascontrol/Measurements/Mean"
-      Path		      "Project01/Mean"
+      Path		      "Simulink_Simulation/Mean"
       SID		      "22"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Elements/Series RLC Branch"
-      Path		      "Project01/RL Load"
+      Path		      "Simulink_Simulation/RL Load"
       SID		      "7"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib_meascontrol/Measurements/RMS"
-      Path		      "Project01/RMS"
+      Path		      "Simulink_Simulation/RMS"
       SID		      "11"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib_meascontrol/Measurements/RMS"
-      Path		      "Project01/RMS1"
+      Path		      "Simulink_Simulation/RMS1"
       SID		      "12"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib_meascontrol/Measurements/RMS"
-      Path		      "Project01/RMS2"
+      Path		      "Simulink_Simulation/RMS2"
       SID		      "20"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Electrical\nSources/AC Voltage Source"
-      Path		      "Project01/Source"
+      Path		      "Simulink_Simulation/Source"
       SID		      "3"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/Power\nElectronics/Thyristor"
-      Path		      "Project01/Thyristor "
+      Path		      "Simulink_Simulation/Thyristor "
       SID		      "1"
       Type		      "LIBRARY_BLOCK"
     }
     ExternalFileReference {
       Reference		      "powerlib/powergui"
-      Path		      "Project01/powergui"
+      Path		      "Simulink_Simulation/powergui"
       SID		      "25"
       Type		      "LIBRARY_BLOCK"
     }
@@ -203,7 +203,7 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "x64"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Jan 05 22:57:52 2026"
+  LastModifiedDate	  "Mon Jan 05 23:47:54 2026"
   RTWModifiedTimeStamp	  689554530
   ModelVersionFormat	  "1.%<AutoIncrement:5>"
   SampleTimeColors	  off
@@ -265,12 +265,12 @@ Model {
     $PropName		    "DataLoggingOverride"
     $ObjectID		    7
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
-    model_		    "Project01"
+    model_		    "Simulink_Simulation"
     overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
       Dimension		      1
-      Cell		      "Project01"
+      Cell		      "Simulink_Simulation"
       PropName		      "logAsSpecifiedByModels_"
     }
     Array {
@@ -1164,7 +1164,7 @@ Model {
     }
   }
   System {
-    Name		    "Project01"
+    Name		    "Simulink_Simulation"
     Location		    [-7, -7, 1543, 831]
     Open		    on
     PortBlocksUseCompactNotation off
@@ -1484,9 +1484,26 @@ Model {
       Ports		      [1]
       Position		      [420, 134, 450, 166]
       ZOrder		      18
-      ScopeSpecificationString "C++SS(StrPVP('Location','[188, 365, 512, 604]'),StrPVP('Open','off'),MxPVP('AxesTitles"
-      "',54,'struct(''axes1'',''%<SignalLabel>'')'),StrPVP('ShowLegends','off'),StrPVP('ScrollMode','off'),StrPVP('Limi"
-      "tDataPoints','on'),StrPVP('DataFormat','Array'),StrPVP('Decimation','1'),StrPVP('BlockParamSampleInput','off'))"
+      ScopeSpecificationString "Simulink.scopes.TimeScopeBlockCfg('CurrentConfiguration', extmgr.ConfigurationSet(extm"
+      "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
+      "ources','WiredSimulink',true,'DataLoggingLimitDataPoints',true,'DataLoggingSaveFormat','Array','DataLoggingDecim"
+      "ation','1','DataLoggingDecimateData',true),extmgr.Configuration('Visuals','Time Domain',true,'SerializedDisplays"
+      "',{struct('MinYLimReal','-367.50987','MaxYLimReal','196.31919','YLabelReal','','MinYLimMag',' 0.00000','MaxYLimM"
+      "ag','367.50987','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'Axe"
+      "sTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.07450"
+      "98039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.07450"
+      "98039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863]"
+      ",'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',2,'LineNames',{{'"
+      "Freewheeling Diode:1','Freewheeling Diode:2'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults',stru"
+      "ct('MinYLimReal','-367.50987','MaxYLimReal','196.31919','YLabelReal','','MinYLimMag',' 0.00000','MaxYLimMag','36"
+      "7.50987','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTickCo"
+      "lor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.074509803921"
+      "5686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.074509803921"
+      "5686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'Title"
+      "','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'LineNames',{{[]}},'Sh"
+      "owContent',true,'Placement',1)),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAutoscale','X'),ext"
+      "mgr.Configuration('Tools','Measurements',true,'Version','2020a')),'Version','2020a','Location',[1 74.19999999999"
+      "99 1537 823])"
       NumInputPorts	      "1"
       Floating		      off
     }
@@ -1501,14 +1518,22 @@ Model {
       "gr.Configuration('Core','General UI',true),extmgr.Configuration('Core','Source UI',true),extmgr.Configuration('S"
       "ources','WiredSimulink',true,'DataLoggingVariableName','ScopeData1','DataLoggingLimitDataPoints',true,'DataLoggi"
       "ngSaveFormat','Array','DataLoggingDecimation','1','DataLoggingDecimateData',true),extmgr.Configuration('Visuals'"
-      ",'Time Domain',true,'DisplayPropertyDefaults',struct('MinYLimReal','-10','MaxYLimReal','10','YLabelReal','','Min"
-      "YLimMag','0','MaxYLimMag','10','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColo"
-      "r',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.066666666"
-      "6666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.83137254"
-      "9019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.6"
-      "50980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,"
-      "'LineNames',{{[]}},'ShowContent',true,'Placement',1)),extmgr.Configuration('Tools','Plot Navigation',true),extmg"
-      "r.Configuration('Tools','Measurements',true)),'Version','2020a','Location',[188 365 512 604])"
+      ",'Time Domain',true,'SerializedDisplays',{struct('MinYLimReal','-38.89087','MaxYLimReal','350.01783','YLabelReal"
+      "','','MinYLimMag','0.00000','MaxYLimMag','350.01783','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMag"
+      "Phase',false,'AxesColor',[0 0 0],'AxesTickColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorO"
+      "rder',[1 1 0.0666666666666667;0.0745098039215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.3921"
+      "56862745098 0.831372549019608 0.0745098039215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 "
+      "0.0745098039215686 0.650980392156863],'Title','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNam"
+      "es',{{}},'NumLines',1,'LineNames',{{'Load Voltage'}},'ShowContent',true,'Placement',1)},'DisplayPropertyDefaults"
+      "',struct('MinYLimReal','-38.89087','MaxYLimReal','350.01783','YLabelReal','','MinYLimMag','0.00000','MaxYLimMag'"
+      ",'350.01783','LegendVisibility','off','XGrid',true,'YGrid',true,'PlotMagPhase',false,'AxesColor',[0 0 0],'AxesTi"
+      "ckColor',[0.686274509803922 0.686274509803922 0.686274509803922],'ColorOrder',[1 1 0.0666666666666667;0.07450980"
+      "39215686 0.623529411764706 1;1 0.411764705882353 0.16078431372549;0.392156862745098 0.831372549019608 0.07450980"
+      "39215686;0.717647058823529 0.274509803921569 1;0.0588235294117647 1 1;1 0.0745098039215686 0.650980392156863],'T"
+      "itle','%<SignalLabel>','LinePropertiesCache',{{}},'UserDefinedChannelNames',{{}},'NumLines',0,'LineNames',{{[]}}"
+      ",'ShowContent',true,'Placement',1)),extmgr.Configuration('Tools','Plot Navigation',true,'PreviousAutoscale','X')"
+      ",extmgr.Configuration('Tools','Measurements',true,'Version','2020a')),'Version','2020a','Location',[1 74.1999999"
+      "999999 1537 823])"
       NumInputPorts	      "1"
       Floating		      off
     }
@@ -1587,7 +1612,7 @@ Model {
       Position		      [190, 120, 281, 179]
       ZOrder		      25
       Priority		      "1"
-      LibraryVersion	      "1.2843"
+      LibraryVersion	      "*1.2843"
       SourceBlock	      "powerlib/powergui"
       SourceType	      "PSB option menu block"
       SourceProductBaseCode   "PS"
