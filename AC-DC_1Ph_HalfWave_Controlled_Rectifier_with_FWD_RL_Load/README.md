@@ -165,7 +165,7 @@ vload_check = (Vgrid_max / (2*pi)) * (1 + cos(alpha_deg*pi/180));
 fprintf('   (Analytical Check):       %.2f V\n', vload_check);
 
 ```
-
+ 
 ## 📊 Simulation Results
 
 The simulation results confirm the theoretical analysis.
