@@ -36,6 +36,7 @@ For a three-phase half-wave rectifier with a resistive load and $\alpha = 45^\ci
 
 **1. Phase Voltages:**
 The phase-to-neutral voltage peak ($V_m$) is derived from the line-to-line RMS voltage:
+
 $$V_{phase(rms)} = \frac{380}{\sqrt{3}} \approx 220 \text{ V}$$
 $$V_m = 220\sqrt{2} \approx 311 \text{ V}$$
 
@@ -46,6 +47,7 @@ Since the firing angle $\alpha = 45^\circ$ is greater than $30^\circ$, and the l
 
 **3. Active Power Calculation:**
 The average power is calculated by integrating the instantaneous power over one period ($T_{period} = 2\pi/3$ for 3-phase output):
+
 $$P_{avg} = \frac{3}{2\pi} \int_{30^\circ+\alpha}^{180^\circ} \frac{(V_m \sin \omega t)^2}{R} \, d(\omega t)$$
 
 ## 💻 MATLAB Code
