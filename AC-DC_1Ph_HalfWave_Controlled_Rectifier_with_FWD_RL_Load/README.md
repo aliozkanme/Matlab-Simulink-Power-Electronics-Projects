@@ -182,4 +182,4 @@ The following scope result shows the current transferring to the freewheeling di
 
 ## 📂 Files
 * [Matlab_Calculation.m](Matlab_Calculation.m)
-* [Simulink_Simulation.slx](Simulink_Simulation.slx)
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
