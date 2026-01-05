@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.12"
+    ComputedModelVersion    "1.13"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -142,9 +142,9 @@ Model {
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
 	Extents			[1879.0, 809.0]
-	ZoomFactor		[1.25]
-	Offset			[319.09025799382971, 367.69463236667764]
-	SceneRectInView		[319.09025799382971, 367.69463236667764, 1202.56, 517.76]
+	ZoomFactor		[1.5]
+	Offset			[306.94359132716045, 360.62796570001086]
+	SceneRectInView		[306.94359132716045, 360.62796570001086, 1002.1333333333333, 431.46666666666664]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -185,9 +185,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "x64"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jan 06 00:45:31 2026"
-  RTWModifiedTimeStamp	  689561115
-  ModelVersionFormat	  "1.%<AutoIncrement:12>"
+  LastModifiedDate	  "Tue Jan 06 02:08:22 2026"
+  RTWModifiedTimeStamp	  689566094
+  ModelVersionFormat	  "1.%<AutoIncrement:13>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "disabled"
@@ -1177,7 +1177,7 @@ Model {
     TiledPaperMargins	    [1.270000, 1.270000, 1.270000, 1.270000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "125"
+    ZoomFactor		    "150"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "41"
     SimulinkSubDomain	    "Simulink"
@@ -1833,39 +1833,6 @@ Model {
       Points		      [34, 0; 0, -185]
       DstBlock		      "Scope"
       DstPort		      2
-    }
-    Annotation {
-      SID		      "19"
-      Name		      "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-      "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\np, li { white-space: pre-wrap; }"
-      "\n</style></head><body style=\" font-family:'Helvetica'; font-size:10px; font-weight:400; font-style:normal;\">\n"
-      "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-inden"
-      "t:0px;\"><span style=\" font-size:12pt;\">syms wt;</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; ma"
-      "rgin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Va_wt=("
-      "380/(sqrt(3)))*sqrt(2)*sin(wt);</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; marg"
-      "in-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">alfa=pi/4; % alfa tetiklem"
-      "e açýsý</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-      "indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">kom=pi/6; % komutasyon açýsý</span></p>\n<p style="
-      "\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">"
-      "<span style=\" font-size:12pt;\">R=10;</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0p"
-      "x; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">f=50;</span></p>\n<"
-      "p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent"
-      ":0px;\"><span style=\" font-size:12pt;\">w=2*pi*f;</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; ma"
-      "rgin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">T=2*pi/"
-      "3;</span></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-inden"
-      "t:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Ia_wt=Va_wt/R;</span></p>\n<p style=\" margin-top:0px; "
-      "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font"
-      "-size:12pt;\">Port=(1/T)*int(Va_wt*Ia_wt,kom + alfa, pi);</span></p>\n<p style=\" margin-top:0px; margin-bottom:"
-      "0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">"
-      "Portalama=double(Port)</span></p></body></html>"
-      Position		      [2044, 240, 2421, 465]
-      InternalMargins	      [0, 0, 0, 0]
-      FixedHeight	      on
-      FixedWidth	      on
-      HorizontalAlignment     "left"
-      VerticalAlignment	      "top"
-      Interpreter	      "rich"
-      ZOrder		      -1
     }
   }
 }
