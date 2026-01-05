@@ -46,18 +46,24 @@ Where $V_m = 220\sqrt{2}$.
 * **Freewheeling Interval ($\pi < \omega t < 2\pi + \alpha$):** The diode is ON, load is shorted, $v_o = 0$.
 
 **3. Average Load Voltage ($V_{dc}$):**
-$$V_{dc} = \frac{1}{2\pi} \int_{\alpha}^{\pi} V_m \sin(\omega t) \, d(\omega t) = \frac{V_m}{2\pi} (1 + \cos\alpha)$$
+$$
+V_{dc} = \frac{1}{2\pi} \int_{\alpha}^{\pi} V_m \sin(\omega t) \, d(\omega t) = \frac{V_m}{2\pi} (1 + \cos\alpha)
+$$
 
 **4. Current Analysis:**
 The current behavior is analyzed in two distinct modes corresponding to the MATLAB code logic:
 
 * **Mode 1: Thyristor Conduction ($\alpha < \omega t < \pi$)**
     The source energizes the load. The current is governed by:
-    $$V_m \sin(\omega t) = L\frac{di_o}{dt} + R i_o$$
+    $$
+	V_m \sin(\omega t) = L\frac{di_o}{dt} + R i_o
+	$$
 
 * **Mode 2: Freewheeling Diode Conduction ($\pi < \omega t < 2\pi+\alpha$)**
     The source is disconnected, and the stored energy in the inductor circulates through the diode. The source voltage is effectively zero:
-    $$0 = L\frac{di_o}{dt} + R i_o$$
+    $$
+	0 = L\frac{di_o}{dt} + R i_o
+	$$
 
 ## 💻 MATLAB Code
 
@@ -170,12 +176,12 @@ The simulation results confirm the theoretical analysis.
 **1. Load Voltage Output:**
 The load voltage follows the source voltage when the thyristor is triggered and becomes zero when the freewheeling diode conducts (after $\pi$).
 
-![Load Voltage Scope](Load Voltage Scope.png)
+![Load Voltage Scope](Scope_Load_Voltage.png)
 
 **2. Freewheeling Diode Behavior:**
 The following scope result shows the current transferring to the freewheeling diode when the grid voltage enters the negative cycle.
 
-![Freewheeling Diode Scope](FreeWheeling Diode Scope.png)
+![Freewheeling Diode Scope](Scope_FreeWheeling_Diode.png)
 
 ## 📂 Files
 * [Matlab_Calculation.m](Matlab_Calculation.m)
