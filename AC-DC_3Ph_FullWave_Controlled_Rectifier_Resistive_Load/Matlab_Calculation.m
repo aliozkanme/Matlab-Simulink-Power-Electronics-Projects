@@ -1,91 +1,88 @@
 % =========================================================================
-% PROJECT 04: 1-Phase Full-Wave Controlled Rectifier with RLE Load
+% PROJECT 03: 3-Phase Full-Wave Controlled Rectifier (Resistive Load)
 % Analytical Solution using MATLAB Symbolic Toolbox
+% Cases: Alpha = 30 deg and Alpha = 90 deg
 % =========================================================================
 
 clear; clc;
 
 % --- 1. SYSTEM PARAMETERS ---
-V_rms_grid = 220;                % Grid Voltage (V)
-Vm = V_rms_grid * sqrt(2);       % Peak Voltage (V)
-f = 50;                          % Frequency (Hz)
-w = 2*pi*f;                      % Angular Frequency (rad/s)
-T = 1/f;                         % Period (s)
+V_LL_rms = 380;                  % Line-to-Line RMS Voltage (V)
+Vm_LL = V_LL_rms * sqrt(2);      % Peak Line-to-Line Voltage (V)
+R = 10;                          % Load Resistance (Ohm)
+syms wt;                         % Symbolic variable for angle (omega * t)
 
-R = 1;                           % Resistance (Ohm)
-L = 0.01;                        % Inductance (10 mH)
-E = 220;                         % Back EMF / Battery Voltage (V)
-alpha_deg = 90;                  % Firing Angle (Degrees)
+fprintf('--- PROJECT 03 CALCULATION RESULTS ---\n');
 
-% Time conversions
-alpha_rad = deg2rad(alpha_deg);
-t_alpha = (alpha_deg / 360) * T; % Firing time (s)
+% =========================================================================
+% --- CASE 1: Alpha = 30 Degrees (Continuous Conduction) ---
+% =========================================================================
+alpha1_deg = 30;
+alpha1_rad = deg2rad(alpha1_deg);
 
-fprintf('--- PROJECT 04 CALCULATION RESULTS ---\n');
-fprintf('Vm: %.2f V, E: %.2f V, Alpha: %d deg\n', Vm, E, alpha_deg);
+% In 3-Phase Full Converter, periodicity is pi/3 (60 degrees).
+% For R load, if alpha < 60, conduction is Continuous.
+% Integration limits: from (alpha + pi/3) to (alpha + 2*pi/3)
+% Reference Voltage: Line-to-Line Voltage Vab = Vm_LL * sin(wt + pi/6) 
+% (Standard reference shifting for correct limits)
 
-% --- 2. CURRENT EQUATION & EXTINCTION ANGLE ---
-% Circuit Equation: Vm*sin(wt) = L(di/dt) + R*i + E
-% Current starts at t_alpha with i(t_alpha) = 0.
+fprintf('\n>>> CASE 1: Alpha = %d degrees (Continuous Mode)\n', alpha1_deg);
 
-syms t positive
-i_sym = dsolve(Vm*sin(w*t) == L*diff(t) + R*t + E, ...
-               sprintf('y(%f) = 0', t_alpha), 't');
-i_sym = simplify(i_sym);
+% Average Load Voltage (Vdc)
+% Vdc = (3/pi) * integral of Vm_LL * sin(wt) from alpha+pi/3 to alpha+2pi/3
+% Simplified Formula for Continuous: Vdc = (3*Vm_LL/pi) * cos(alpha)
+Vdc_1 = (3 * Vm_LL / pi) * cos(alpha1_rad);
+fprintf('1. Average Load Voltage (Vdc):   %.2f V\n', Vdc_1);
 
-% Find Extinction Time (t_beta) where Current becomes 0 again.
-% We search for a solution after t_alpha.
-% Since symbolic solve can be slow/fail on transcendental eq, use numerical fzero.
-i_func = matlabFunction(i_sym); 
-guess = t_alpha + 0.005; % Guess a bit after alpha
-t_beta = fzero(i_func, guess);
-beta_deg = (t_beta / T) * 360;
-
-fprintf('Extinction Angle (Beta): %.2f degrees\n', beta_deg);
-
-% Check Conduction Mode
-if beta_deg < (180 + alpha_deg)
-    fprintf('Mode: Discontinuous Conduction\n');
-    t_end = t_beta;
-else
-    fprintf('Mode: Continuous Conduction (Warning: Code logic assumes discontinuous)\n');
-    t_end = t_alpha + T/2;
-end
-
-% --- 3. CALCULATE OUTPUT VALUES ---
-
-% A) Average Load Voltage (V_dc)
-% Interval 1 (Conducting: t_alpha to t_beta): v_o = |Vm*sin(wt)| (Rectified sine)
-% Interval 2 (Non-conducting: t_beta to Next Firing): v_o = E (Battery dominates)
-% Full Wave Period is T/2 (0.01s). Next firing is at t_alpha + T/2.
-
-% Note: Since it is full wave, we integrate over T/2.
-% V_avg = (2/T) * [ Integral(Vm*sin(wt))_alpha^beta + Integral(E)_beta^(alpha+T/2) ]
-
-v_conducting = Vm * sin(w*t); % Absolute is implied by limits in 1st half cycle
-val_v1 = int(v_conducting, t, t_alpha, t_end);
-val_v2 = E * ((t_alpha + T/2) - t_end); % Constant E part
-
-V_load_avg = double( (2/T) * (val_v1 + val_v2) );
-fprintf('a) Average Load Voltage (Vdc):       %.2f V\n', V_load_avg);
+% RMS Source Current (Is_rms) calculation is complex symbolically for 
+% specific phase shifting, approximating for Resistive Load:
+% Power Balance: P_dc = V_rms_load^2 / R = P_ac (approx)
+% Output RMS Voltage for Full Wave:
+V_load_rms_1 = Vm_LL * sqrt( (3/(2*pi)) * (pi/3 + 0.5*sqrt(3)*cos(2*alpha1_rad)) );
+P_load_1 = (V_load_rms_1^2) / R;
+% Total Power = sqrt(3) * V_LL * Is_rms * PF
+% Instead, calculating Is_rms directly from load current relation:
+% I_rms_load = V_load_rms_1 / R.
+% For 3-ph full bridge, Source Current rms (Is) = I_load_rms * sqrt(2/3) (for constant current)
+% But for R-load, wave shape matters.
+% Integration method:
+i_out_1 = (Vm_LL * sin(wt)) / R;
+% Integration limits for one pulse (60 deg): pi/3+alpha to 2pi/3+alpha
+val_i2 = int(i_out_1^2, wt, pi/3+alpha1_rad, 2*pi/3+alpha1_rad);
+% This is energy in one 60-deg pulse. Source conducts for 2 pulses per half cycle (positive and negative).
+% Actually source current flows for 120 deg in each half cycle (2 pulses).
+Is_rms_1 = double(sqrt( (1/pi) * val_i2 )); % Averaged over pi
+fprintf('2. RMS Phase Current (Is):       %.2f A\n', Is_rms_1);
 
 
-% B) Average Load Current (Idc)
-% I_avg = (2/T) * Integral(i(t))_alpha^beta
-val_i_avg = integral(i_func, t_alpha, t_end);
-I_load_avg = (2/T) * val_i_avg;
-fprintf('b) Average Load Current (Idc):       %.2f A\n', I_load_avg);
+% =========================================================================
+% --- CASE 2: Alpha = 90 Degrees (Discontinuous Conduction) ---
+% =========================================================================
+alpha2_deg = 90;
+alpha2_rad = deg2rad(alpha2_deg);
 
+fprintf('\n>>> CASE 2: Alpha = %d degrees (Discontinuous Mode)\n', alpha2_deg);
 
-% C) RMS Load Current (I_rms)
-% I_rms = sqrt( (2/T) * Integral(i(t)^2)_alpha^beta )
-val_i_rms = integral(@(x) i_func(x).^2, t_alpha, t_end);
-I_load_rms = sqrt((2/T) * val_i_rms);
-fprintf('c) RMS Load Current:                 %.2f A\n', I_load_rms);
+% For R load, if alpha > 60, current becomes Discontinuous.
+% Conduction starts at: alpha + 30 deg (relative to crossing) -> Here pi/3 + alpha
+% Conduction ends at: pi (180 deg) when line voltage goes negative.
+% Wait, standard limits: alpha+pi/3 to pi (zero crossing of line voltage)
 
+% Integration Limits:
+theta_start = alpha2_rad + pi/3; 
+theta_end = pi; % V_line goes to zero at pi
 
-% D) RMS Source Current (Is_rms)
-% For Full Wave Rectifier, Source Current shape:
-% Positive pulse during + cycle, Negative pulse during - cycle.
-% Since i(t)^2 is same for positive and negative, RMS Source = RMS Load.
-fprintf('d) RMS Source Current (Grid):        %.2f A\n', I_load_rms);
+% Average Load Voltage
+v_inst = Vm_LL * sin(wt);
+Vdc_sym_2 = (3/pi) * int(v_inst, wt, theta_start, theta_end);
+Vdc_2 = double(Vdc_sym_2);
+fprintf('1. Average Load Voltage (Vdc):   %.2f V\n', Vdc_2);
+
+% RMS Source Current
+% Current flows only during conduction intervals.
+i_inst_2 = (Vm_LL * sin(wt)) / R;
+val_i2_case2 = int(i_inst_2^2, wt, theta_start, theta_end);
+% Source current conducts for 2 such pulses in a half cycle (normally), 
+% but due to discontinuity, we integrate the energy.
+Is_rms_2 = double(sqrt( (1/pi) * val_i2_case2 ));
+fprintf('2. RMS Phase Current (Is):       %.2f A\n', Is_rms_2);
