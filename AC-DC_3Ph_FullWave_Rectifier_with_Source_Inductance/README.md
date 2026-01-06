@@ -151,7 +151,7 @@ As seen in the circuit display blocks:
 **2. Waveform Analysis:**
 The system produces a 6-pulse output voltage. Due to $L_s$, the voltage transitions are not instantaneous, creating "notches" (momentary drops) in the output voltage waveform every $60^\circ$.
 
-*(Placeholder for Scope Image)*
+
 ![Scope Results](Scope.png)
 
 ## 📂 Files
