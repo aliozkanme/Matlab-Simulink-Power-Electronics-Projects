@@ -40,9 +40,12 @@ Due to the source inductance $L_s$, the current cannot change instantly from one
 
 **1. Average Load Voltage ($V_{dc}$):**
 The output voltage is reduced by the voltage drop across $L_s$ during commutation.
+
 $$V_{dc} = V_{dc(\text{no-loss})} - \Delta V_x$$
 
+
 $$V_{dc} = \frac{3\sqrt{2} V_{phase}}{\pi} \cos(\alpha) - \frac{3 \omega L_s I_d}{2\pi}$$
+
 Where $I_d$ is the constant load current ($20 \text{ A}$).
 
 **2. Commutation Overlap:**
@@ -140,7 +143,7 @@ The scope output below demonstrates the **Commutation Notches** on the load volt
 * **Row 3:** Source Current (Phase R).
 * **Row 4:** Load Voltage (Note the momentary voltage drops/notches at firing points).
 
-![Scope Results](Scope.jpg)
+![Scope Results](Scope.png)
 
 ## 📂 Files
 * [Matlab_Calculation.m](Matlab_Calculation.m)
