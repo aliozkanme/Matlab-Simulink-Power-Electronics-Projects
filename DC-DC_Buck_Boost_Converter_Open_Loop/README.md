@@ -16,7 +16,7 @@ The converter is powered by a 15V DC source and supplies a resistive load ($R=10
 * **Input Voltage ($V_{in}$):** $15 \text{ V}$
 * **Load Resistance ($R$):** $100 \, \Omega$
 * **Switching Frequency ($f_{sw}$):** $15 \text{ kHz}$
-* **Filter:** $L = 300 \, \mu H$, $C = 250 \, \mu F$
+* **Filter:** $L = 300 \ \mu H$, $C = 250 \ \mu F$
 * **Switching Element:** GTO Thyristor
 
 ## 🧮 Mathematical Background

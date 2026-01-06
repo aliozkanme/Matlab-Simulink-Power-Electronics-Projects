@@ -16,7 +16,7 @@ A Buck converter is supplied by a 15V DC source. It feeds a resistive load ($R=2
 * **Input Voltage ($V_{in}$):** $15 \text{ V}$
 * **Load Resistance ($R$):** $25 \, \Omega$
 * **Switching Frequency ($f_{sw}$):** $20 \text{ kHz}$
-* **Filter:** $L=0.1$ mH, $C = 470 \, \mu F$
+* **Filter:** $L=0.1$ mH, $C = 470 \ \mu F$
 
 ## 🧮 Mathematical Background
 
