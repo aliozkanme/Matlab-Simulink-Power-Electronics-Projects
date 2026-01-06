@@ -13,11 +13,11 @@ This project presents the simulation and mathematical analysis of a **Three-Phas
 The rectifier is connected to a 3-phase grid ($380V_{L-L}$) through source inductances. The presence of $L_s$ causes **commutation overlap**, resulting in a voltage drop at the output.
 
 **System Parameters:**
-* [cite_start]**Grid Voltage:** $V_{rms} = 380 \text{ V}$ (Line-to-Line), $f = 50 \text{ Hz}$ [cite: 164]
-* [cite_start]**Source Inductance:** $L_s = 10 \text{ mH}$ (per phase) [cite: 165]
-* [cite_start]**Load:** $R_y = 19.2 \, \Omega$, $L_y = 1 \text{ H}$ [cite: 165]
-* [cite_start]**Target Load Current:** $\approx 20 \text{ A}$ (Continuous) [cite: 166]
-* [cite_start]**Firing Angle:** $\alpha = 30^\circ$ [cite: 167]
+* **Grid Voltage:** $V_{rms} = 380 \text{ V}$ (Line-to-Line), $f = 50 \text{ Hz}$ [cite: 164]
+* **Source Inductance:** $L_s = 10 \text{ mH}$ (per phase) [cite: 165]
+* **Load:** $R_y = 19.2 \, \Omega$, $L_y = 1 \text{ H}$ [cite: 165]
+* **Target Load Current:** $\approx 20 \text{ A}$ (Continuous) [cite: 166]
+* **Firing Angle:** $\alpha = 30^\circ$ [cite: 167]
 
 **Objectives:**
 1.  Calculate and simulate the Average Load Voltage ($V_{dc}$) accounting for the commutation drop.
@@ -26,9 +26,9 @@ The rectifier is connected to a 3-phase grid ($380V_{L-L}$) through source induc
 
 ## ⚙️ Simulation Settings (Simulink)
 The Simulink model is configured with the following parameters:
-* [cite_start]**Solver:** `ode23t (mod. stiff/Trapezoidal)` [cite: 170]
-* [cite_start]**Stop Time:** `0.6` s [cite: 167]
-* [cite_start]**Powergui:** Discrete, $T_s = 5e-6$ s [cite: 170]
+* **Solver:** `ode23t (mod. stiff/Trapezoidal)` [cite: 170]
+* **Stop Time:** `0.6` s [cite: 167]
+* **Powergui:** Discrete, $T_s = 5e-6$ s [cite: 170]
 
 ## 🔌 Simulink Model
 The following circuit topology was implemented. It consists of a 6-pulse thyristor bridge supplied by a 3-phase source with series inductances ($L_s$).
