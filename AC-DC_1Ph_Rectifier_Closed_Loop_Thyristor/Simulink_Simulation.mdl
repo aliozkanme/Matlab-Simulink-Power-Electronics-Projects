@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.3"
+    ComputedModelVersion    "1.4"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -165,7 +165,7 @@ Model {
 	Dimension		0
 	PropName		"PersistedApps"
       }
-      WindowUuid	      "c34cbc65-fdc8-4c0c-a31c-623f61bb6f50"
+      WindowUuid	      "6d3a44c7-00b7-493c-8890-20d071ec6951"
     }
     BDUuid		    "6110a1c5-8751-4336-92b3-05d9d557efbd"
   }
@@ -179,9 +179,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "x64"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Jan 06 16:45:10 2026"
-  RTWModifiedTimeStamp	  689618605
-  ModelVersionFormat	  "1.%<AutoIncrement:3>"
+  LastModifiedDate	  "Tue Jan 06 17:11:19 2026"
+  RTWModifiedTimeStamp	  689619256
+  ModelVersionFormat	  "1.%<AutoIncrement:4>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "disabled"
@@ -1423,7 +1423,7 @@ Model {
 	SimulinkSubDomain	"Simulink"
 	Block {
 	  BlockType		  Inport
-	  Name			  "cikis"
+	  Name			  "V_ref"
 	  SID			  "15::1"
 	  Position		  [20, 101, 40, 119]
 	  ZOrder		  -1
@@ -1452,7 +1452,7 @@ Model {
 	  SFcnIsStateOwnerBlock	  off
 	  Port {
 	    PortNumber		    2
-	    Name		    "giris"
+	    Name		    "alpha_deg"
 	  }
 	}
 	Block {
@@ -1464,25 +1464,25 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "giris"
+	  Name			  "alpha_deg"
 	  SID			  "15::5"
 	  Position		  [460, 101, 480, 119]
 	  ZOrder		  -5
 	}
 	Line {
 	  ZOrder		  5
-	  SrcBlock		  "cikis"
+	  SrcBlock		  "V_ref"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "giris"
+	  Name			  "alpha_deg"
 	  ZOrder		  6
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
-	  DstBlock		  "giris"
+	  DstBlock		  "alpha_deg"
 	  DstPort		  1
 	}
 	Line {
@@ -1536,7 +1536,7 @@ Model {
 	SimulinkSubDomain	"Simulink"
 	Block {
 	  BlockType		  Inport
-	  Name			  "ger"
+	  Name			  "input_voltage"
 	  SID			  "16::23"
 	  Position		  [20, 101, 40, 119]
 	  ZOrder		  10
@@ -1565,7 +1565,7 @@ Model {
 	  SFcnIsStateOwnerBlock	  off
 	  Port {
 	    PortNumber		    2
-	    Name		    "x2"
+	    Name		    "output_signal"
 	  }
 	}
 	Block {
@@ -1577,25 +1577,25 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
-	  Name			  "x2"
+	  Name			  "output_signal"
 	  SID			  "16::24"
 	  Position		  [460, 101, 480, 119]
 	  ZOrder		  11
 	}
 	Line {
 	  ZOrder		  5
-	  SrcBlock		  "ger"
+	  SrcBlock		  "input_voltage"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "x2"
+	  Name			  "output_signal"
 	  ZOrder		  6
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  2
-	  DstBlock		  "x2"
+	  DstBlock		  "output_signal"
 	  DstPort		  1
 	}
 	Line {
@@ -2371,7 +2371,7 @@ Stateflow {
     chartFileNumber	    1
     disableImplicitCasting  1
     eml {
-      name		      "istenen"
+      name		      "Calculate_Alpha"
     }
     firstData		    4
     firstTransition	    7
@@ -2391,17 +2391,26 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function giris=istenen(cikis)\nfi=2;\ne=0.00001; \nmax=20; \nfark=0.000001; \ngiris=0;\nf=0;\nV=2"
-      "20*sqrt(2); \nfor k=1:max\n    b=(V/pi)*sin(fi); \n    giris=fi-(-(V/pi)*(cos(fi)+1)+cikis)/b;  \n    u=abs(giri"
-      "s-fi);\n    u1=2*u/(abs(giris)+fark);\n    fi=giris;\n    f=(-(V/pi)*(cos(fi)+1)+cikis);\nif (u<fark)||(u1<fark)"
-      "||(abs(f)<e);\n    break\nend \nend\ngiris=giris*180/pi;"
+      script		      "function alpha_deg = Calculate_Alpha(V_ref)\n    % Initialization of variables\n    phi = 2;     "
+      "         % Initial guess for the angle (radians)\n    eps_tol = 0.00001;    % Epsilon tolerance\n    max_iter = "
+      "20;        % Maximum number of iterations\n    diff_tol = 0.000001;  % Difference threshold\n    alpha_deg = 0; "
+      "       % Output angle initialization\n    f_val = 0;            % Function value\n    \n    Vm = 220 * sqrt(2); "
+      "  % Peak Voltage (Vm)\n    \n    % Newton-Raphson Loop\n    for k = 1:max_iter\n        % Derivative of the volt"
+      "age equation: b = f'(phi)\n        deriv = (Vm / pi) * sin(phi); \n        \n        % Update rule: alpha = phi "
+      "- f(phi)/f'(phi)\n        % Equation being solved: V_ref - (Vm/pi)*(1 + cos(phi)) = 0\n        numerator = -(Vm "
+      "/ pi) * (cos(phi) + 1) + V_ref;\n        alpha_deg = phi - numerator / deriv;  \n        \n        % Error Calcu"
+      "lation\n        err_abs = abs(alpha_deg - phi);\n        err_rel = 2 * err_abs / (abs(alpha_deg) + diff_tol);\n "
+      "       \n        % Update phi for next step\n        phi = alpha_deg;\n        \n        % Recalculate function "
+      "residual\n        f_val = -(Vm / pi) * (cos(phi) + 1) + V_ref;\n        \n        % Convergence Check\n        i"
+      "f (err_abs < diff_tol) || (err_rel < diff_tol) || (abs(f_val) < eps_tol)\n            break\n        end \n    e"
+      "nd\n    \n    % Convert result from Radians to Degrees\n    alpha_deg = alpha_deg * 180 / pi;\nend"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
   data {
     id			    4
     ssIdNumber		    4
-    name		    "cikis"
+    name		    "V_ref"
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -2423,7 +2432,7 @@ Stateflow {
   data {
     id			    5
     ssIdNumber		    5
-    name		    "giris"
+    name		    "alpha_deg"
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2491,13 +2500,16 @@ Stateflow {
     screen		    [1 1 3600 1200 1.180555555555556]
     treeNode		    [0 10 0 0]
     viewObj		    9
+    visible		    1
+    subviewS {
+    }
     ssIdHighWaterMark	    10
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
     chartFileNumber	    3
     disableImplicitCasting  1
     eml {
-      name		      "fcn1"
+      name		      "Zero_Crossing_Detector"
     }
     firstData		    11
     firstTransition	    14
@@ -2517,14 +2529,17 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function x2=fcn1(ger)\nR=10;\nepsilon=0.000001;\nif ger>0\n    x2=1;\nelse\n    x2=0;\nend\n    "
+      script		      "function output_signal = Zero_Crossing_Detector(input_voltage)\n    % Checks if the input voltage"
+      " is positive\n    \n    R = 10;             % Resistance (Ohm)\n    epsilon = 0.000001; % Epsilon tolerance\n   "
+      " \n    if input_voltage > 0\n        output_signal = 1;\n    else\n        output_signal = 0;\n    end\nend\n   "
+      " "
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
   data {
     id			    11
     ssIdNumber		    4
-    name		    "x2"
+    name		    "output_signal"
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -2547,7 +2562,7 @@ Stateflow {
   data {
     id			    12
     ssIdNumber		    10
-    name		    "ger"
+    name		    "input_voltage"
     scope		    INPUT_DATA
     machine		    1
     props {
