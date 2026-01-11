@@ -66,9 +66,6 @@ The following circuit topology was implemented in Simulink using the `Power Syst
 ###  Simulation Parameters
 
 The Simulink model is configured with the following parameters:
-* **Solver:** 
-* **Stop Time:** 
-* **:** 
 
 | Field | Details |
 | :--- | :--- |
