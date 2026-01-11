@@ -64,7 +64,7 @@ For each case, the **Average Load Voltage ($V_{dc}$)** and **RMS Source Current 
 
 The following circuit topology was implemented in Simulink using the `Power Systems` blockset.
 
-![Circuit Diagram](Circuit.png)
+![Circuit Diagram](Circuit_1.png)
 
 ###  Simulation Parameters
 
