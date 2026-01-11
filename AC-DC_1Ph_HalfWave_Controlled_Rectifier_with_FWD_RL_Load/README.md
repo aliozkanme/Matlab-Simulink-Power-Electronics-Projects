@@ -1,40 +1,38 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # Single-Phase Controlled Rectifier with Freewheeling Diode
 
 This project presents the simulation and mathematical analysis of a **Single-Phase Half-Wave Controlled Rectifier with a Freewheeling Diode** feeding an RL load. It compares the results obtained from a MATLAB script (Symbolic Toolbox) with a Simulink model.
 
 ## 🎓 Project Information
-* **Course:** EEM312 Power Electronics
-* **Institution:** Sakarya University
-* **Term:** Spring 2016
-* **Instructor:** Prof. Dr. U. Arifoğlu
-* **Topic:** Term Project 1 - Analysis of RL Load with Freewheeling Diode
+
+| Field | Details |
+| :--- | :--- |
+| Course | EEM312 Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
 ## 📄 Problem Statement
+
 A thyristor connected to the grid feeds a series RL load. A freewheeling diode is connected in parallel to the load (reverse biased) to maintain current flow when the source voltage reverses.
 
-**System Parameters:**
+### System Parameters
+
 * **Grid Voltage:** $V_{rms} = 220 \text{ V}$, $f = 50 \text{ Hz}$
 * **Load:** $R = 1 \, \Omega$, $L = 2 \text{ mH}$
 * **Firing Angle:** $\alpha = 30^\circ$
 * **Snubber Circuits:** $R_s = 5000 \, \Omega$, $C_s = 0.25 \, \mu F$ (for both Thyristor and Diode)
 
-**Objectives:**
+### Objective
+
 1.  Calculate the RMS Source Current, RMS Diode Current, RMS Load Current, and Average Load Voltage using MATLAB commands.
 2.  Implement the circuit in Simulink and compare the results with the analytical calculation.
 
-## ⚙️ Simulation Settings (Simulink)
-The Simulink model is configured with the following solver parameters for accurate power electronics simulation:
-* **Solver:** `ode23tb (stiff/TR-BDF2)`
-* **Max Step Size:** `auto`
-* **Relative Tolerance:** `1e-3`
-* **Simulation Mode:** Discrete / Continuous (Specific to `powergui`)
-
-## 🔌 Simulink Model
-The following circuit topology was implemented in Simulink using the `Power Systems` blockset.
-
-![Circuit Diagram](Circuit.png)
-
 ## 🧮 Mathematical Background
+
 For a single-phase half-wave controlled rectifier with a freewheeling diode:
 
 **1. Source Voltage:**
@@ -62,9 +60,30 @@ $$V_m \sin(\omega t) = L\frac{di_o}{dt} + R i_o$$
     
 $$0 = L\frac{di_o}{dt} + R i_o$$
 
-## 💻 MATLAB Code
+## ⚙️ System Topology & Simulation Model
+
+### Circuit Diagram & Simulink Model
+
+The following circuit topology was implemented in Simulink using the `Power Systems` blockset.
+
+![Circuit Diagram](Circuit.png)
+
+###  Simulation Parameters
+
+The Simulink model is configured with the following solver parameters for accurate power electronics simulation:
+
+| Field | Details |
+| :--- | :--- |
+| Solver | `ode23tb (stiff/TR-BDF2)` |
+| Max Step Size | `auto` |
+| Relative Tolerance | `1e-3` |
+| Simulation Mode | Discrete / Continuous (Specific to `powergui`) |
+
+## 💻 Control Algorithm & Implementation
 
 The following script solves the differential equation for the given parameters ($L=2mH, \alpha=30^\circ$) and calculates the required values.
+
+### MATLAB Code
 
 ```matlab
 % =========================================================================
@@ -165,8 +184,8 @@ vload_check = (Vgrid_max / (2*pi)) * (1 + cos(alpha_deg*pi/180));
 fprintf('   (Analytical Check):       %.2f V\n', vload_check);
 
 ```
- 
-## 📊 Simulation Results
+
+## 📊 Results & Discussion
 
 The simulation results confirm the theoretical analysis.
 
@@ -180,6 +199,7 @@ The following scope result shows the current transferring to the freewheeling di
 
 ![Freewheeling Diode Scope](Scope_FreeWheeling_Diode.png)
 
-## 📂 Files
-* [Matlab_Calculation.m](Matlab_Calculation.m)
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
+## 📂 Project Files
+
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
