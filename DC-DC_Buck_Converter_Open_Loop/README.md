@@ -1,22 +1,37 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # DC-DC Buck Converter (Step-Down)
 
 This project simulates a **DC-DC Buck Converter** fed by a constant DC source ($E=15V$). The system uses an open-loop control strategy with a custom carrier wave generator to regulate the output voltage across a resistive load.
 
 ## 🎓 Project Information
-* **Course:** EEM441 Industrial Applications of Power Electronics
-* **Institution:** Sakarya University
-* **Term:** Spring 2016
-* **Instructor:** Prof. Dr. U. Arifoğlu
-* **Topic:** Project 1.1 - Buck Converter with GTO
+
+| Field | Details |
+| :--- | :--- |
+| Course | EEM441 Industrial Applications of Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
 ## 📄 Problem Statement
+
 A Buck converter is supplied by a 15V DC source. It feeds a resistive load ($R=25\Omega$) through an LC filter ($L=0.1$ mH, $C=470$ $\mu$F). The switching element is a Gate Turn-Off Thyristor (GTO) operating at 20 kHz.
 
-**System Parameters:**
+### System Parameters
+
 * **Input Voltage ($V_{in}$):** $15 \text{ V}$
 * **Load Resistance ($R$):** $25 \, \Omega$
 * **Switching Frequency ($f_{sw}$):** $20 \text{ kHz}$
 * **Filter:** $L=0.1$ mH, $C = 470 \ \mu F$
+
+### Objective
+
+1.  **Converter Design:** Design and simulate a **DC-DC Buck Converter (Step-Down Chopper)** using a **GTO (Gate Turn-Off Thyristor)** as the switching element.
+2.  **Voltage Regulation:** Control the output voltage across a resistive load ($R=25\Omega$) fed from a fixed $15\text{V}$ DC source.
+3.  **Dynamic Tracking:** Implement a control mechanism where the load voltage follows a specific time-varying profile defined by a **Signal Builder** block.
+4.  **Performance Analysis:** Analyze the voltage and current waveforms under a high switching frequency of **20 kHz**.
 
 ## 🧮 Mathematical Background
 
@@ -35,13 +50,28 @@ Since the input voltage ($V_{in}$) is fixed at 15V, the control logic must calcu
 * For $V_{out} = 4V \implies D = 0.26$
 * For $V_{out} = 8V \implies D = 0.53$
 
-## 🔌 Circuit Diagram
+## ⚙️ System Topology & Simulation Model
+
+### Circuit Diagram & Simulink Model
+
 The circuit consists of the DC source, GTO switch, Free-wheeling Diode, LC filter, and the load.
 
 ![Circuit Diagram](Circuit.png)
 
-## 💻 Embedded MATLAB Code (Carrier Generator)
+### Simulation Parameters
+
+The simulation is configured with the following specific values and solver settings:
+
+| Fiels | Details |
+| :--- | :---: |
+| **Simulation Mode** | Discrete |
+| **Sample Time** |  $T_s$ User Defined s |
+
+## 💻 Control Algorithm & Implementation
+
 The following section is reserved for the Embedded MATLAB script used to generate the triangular carrier wave for PWM modulation at 20 kHz.
+
+### Embedded MATLAB Code (Carrier Generator)
 
 ```matlab
 function triangle_wave = Carrier_Generator(f, t)
@@ -80,12 +110,13 @@ return
 
 ```
 
-### 💡 Technical Analysis of the Code
+### Code Logic & Explanation
+
 The code generates a triangular waveform based on the system simulation time `t` and frequency `f`. This carrier wave allows for the implementation of Pulse Width Modulation (PWM) by comparing it against the calculated duty cycle reference. This comparison generates the switching pulses for the GTO.
 
 ![Carrier Waveform](Signal_Control_Triangle.png)
 
-## 📊 Simulation Results
+## 📊 Results & Discussion
 
 **1. Reference Voltage Profile:**
 The target output voltage profile is defined by a Signal Builder block:
@@ -106,6 +137,7 @@ The comparison between the Reference Signal (Blue) and the Load Voltage (Red) de
 
 ![Comparison Graph](Signal_Compare.png)
 
-## 📂 Files
-* [Matlab_Function_Block.m](Matlab_Function_Block.m)
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
+## 📂 Project Files
+
+* [Matlab_Carrier_Generator.m](Matlab_Carrier_Generator.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.slx](Simulink_Simulation.slx) - The main Simulink model file.
