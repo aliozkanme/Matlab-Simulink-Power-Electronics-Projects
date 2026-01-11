@@ -71,8 +71,8 @@ theta_flat = (2*pi/3) - mu_rad;
 E_flat = (I_load^2) * theta_flat;
 
 % 3. Falling Edge
-% Assuming symmetry for RMS energy contribution
-E_fall = E_rise;
+% i_fall = I_load - i_rising
+E_fall = int((I_load - i_rising)^2, theta, alpha_rad, alpha_plus_mu);
 
 % Total RMS Calculation
 % Source current has 2 pulses (positive and negative) in one period (2*pi)

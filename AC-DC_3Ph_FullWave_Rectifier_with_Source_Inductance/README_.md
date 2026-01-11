@@ -1,40 +1,41 @@
-> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
-
----
-
 # Three-Phase Full-Wave Rectifier with Source Inductance
 
 This project presents the simulation and mathematical analysis of a **Three-Phase Full-Wave Fully Controlled Rectifier (Graetz Bridge)** considering the effect of **Source Inductance ($L_s$)**. The system feeds a series RL load.
 
 ## 🎓 Project Information
-
-| Field | Details |
-| :--- | :--- |
-| Course | EEM312 Power Electronics |
-| Institution | Sakarya University |
-| Term | Spring 2016 |
-| Instructor | Prof. Dr. U. Arifoğlu |
+* **Course:** EEM312 Power Electronics
+* **Institution:** Sakarya University
+* **Term:** Spring 2016
+* **Instructor:** Prof. Dr. U. Arifoğlu
+* **Topic:** Term Project 5 (Part 2) - 3-Phase Full Bridge with Commutation ($L_s$)
 
 ## 📄 Problem Statement
-
 The rectifier is connected to a 3-phase grid ($380V_{L-L}$) through source inductances. The presence of $L_s$ causes **commutation overlap**, resulting in a voltage drop at the output.
 
-### System Parameters
+**System Parameters:**
+* **Grid Voltage:** $V_{rms} = 380 \text{ V}$ (Line-to-Line), $f = 50 \text{ Hz}$ [cite: 164]
+* **Source Inductance:** $L_s = 10 \text{ mH}$ (per phase) [cite: 165]
+* **Load:** $R_y = 19.2 \, \Omega$, $L_y = 1 \text{ H}$ [cite: 165]
+* **Target Load Current:** $\approx 20 \text{ A}$ (Continuous) [cite: 166]
+* **Firing Angle:** $\alpha = 30^\circ$ [cite: 167]
 
-* **Grid Voltage:** $V_{rms} = 380 \text{ V}$ (Line-to-Line), $f = 50 \text{ Hz}$
-* **Source Inductance:** $L_s = 10 \text{ mH}$ (per phase)
-* **Load:** $R_y = 19.2 \, \Omega$, $L_y = 1 \text{ H}$
-* **Target Load Current:** $\approx 20 \text{ A}$ (Continuous)
-* **Firing Angle:** $\alpha = 30^\circ$
-
-### Objective
-
+**Objectives:**
 1.  Calculate and simulate the Average Load Voltage ($V_{dc}$) accounting for the commutation drop.
 2.  Calculate and simulate the RMS Phase Current.
 3.  Observe the 6-pulse commutation notches in the voltage waveform.
 
-## 🧮 Mathematical Background
+## ⚙️ Simulation Settings (Simulink)
+The Simulink model is configured with the following parameters:
+* **Solver:** `ode23t (mod. stiff/Trapezoidal)` [cite: 170]
+* **Stop Time:** `0.6` s [cite: 167]
+* **Powergui:** Discrete, $T_s = 5e-6$ s [cite: 170]
 
+## 🔌 Simulink Model
+The following circuit topology was implemented. It consists of a 6-pulse thyristor bridge supplied by a 3-phase source with series inductances ($L_s$).
+
+![Circuit Diagram](Circuit.png)
+
+## 🧮 Mathematical Background
 In a 3-phase full converter with source inductance, commutation occurs 6 times per cycle. The output voltage is reduced by the voltage drop across $L_s$.
 
 **1. Average Load Voltage ($V_{dc}$):**
@@ -49,31 +50,7 @@ The overlap angle $\mu$ can be found using:
 
 $$\cos(\alpha + \mu) = \cos(\alpha) - \frac{2 \omega L_s I_d}{\sqrt{2} V_{LL}}$$
 
-## ⚙️ System Topology & Simulation Model
-
-The following circuit topology was implemented.
-
-### Circuit Diagram & Simulink Model
-
-It consists of a 6-pulse thyristor bridge supplied by a 3-phase source with series inductances ($L_s$).
-
-![Circuit Diagram](Circuit.png)
-
-###  Simulation Parameters
-
-The Simulink model is configured with the following parameters:
-
-| Field | Details |
-| :--- | :--- |
-| Solver | `ode23t (mod. stiff/Trapezoidal)` |
-| Stop Time | `0.6` s |
-| Powergui | Discrete, $T_s = 5e-6$ s |
-
-## 💻 Control Algorithm & Implementation
-
-
-
-### MATLAB Code
+## 💻 MATLAB Code
 
 ```matlab
 % =========================================================================
@@ -162,16 +139,21 @@ fprintf('2. RMS Source Current:      %.2f A\n', I_source_rms);
 
 ```
 
-## 📊 Results & Discussion
+## 📊 Simulation Results
 
 The simulation confirms the theoretical voltage drop due to source inductance.
 
-**1. Waveform Analysis:**
+**1. Quantitative Measurements:**
+As seen in the circuit display blocks:
+* **Average Load Voltage:** 384.4 V
+* **RMS Phase Current:** 16.03 A
+
+**2. Waveform Analysis:**
 The system produces a 6-pulse output voltage. Due to $L_s$, the voltage transitions are not instantaneous, creating "notches" (momentary drops) in the output voltage waveform every $60^\circ$.
+
 
 ![Scope Results](Scope.png)
 
-## 📂 Project Files
-
-* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
+## 📂 Files
+* [Matlab_Calculation.m](Matlab_Calculation.m)
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
