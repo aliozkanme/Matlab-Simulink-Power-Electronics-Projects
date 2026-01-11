@@ -1,41 +1,40 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # Three-Phase Half-Wave Rectifier with Source Inductance
 
 This project presents the simulation and mathematical analysis of a **Three-Phase Half-Wave Controlled Rectifier** considering the effect of **Source Inductance ($L_s$)**. The system feeds a large RL load.
 
 ## 🎓 Project Information
-* **Course:** EEM312 Power Electronics
-* **Institution:** Sakarya University
-* **Term:** Spring 2016
-* **Instructor:** Prof. Dr. U. Arifoğlu
-* **Topic:** Term Project 5 - 3-Phase Rectifier with Commutation ($L_s$)
+
+| Field | Details |
+| :--- | :--- |
+| Course | EEM312 Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
 ## 📄 Problem Statement
+
 The rectifier is connected to a 3-phase grid through source inductances. The presence of $L_s$ causes **commutation overlap**, resulting in a voltage drop at the output.
 
-**System Parameters:**
+### System Parameters
+
 * **Grid Voltage:** $V_{rms} = 380 \text{ V}$ (Line-to-Line), $f = 50 \text{ Hz}$
 * **Source Inductance:** $L_s = 10 \text{ mH}$ (per phase)
 * **Load:** $R = 9.645 \, \Omega$, $L = 1 \text{ H}$ (High inductance ensures constant current)
 * **Load Current:** $\approx 20 \text{ A}$ (Target Value)
 * **Firing Angle:** $\alpha = 30^\circ$
 
-**Objectives:**
+### Objective
+
 1.  Observe the effect of source inductance on the load voltage (Commutation Notches).
 2.  Calculate and simulate the Average Load Voltage ($V_{dc}$).
 3.  Calculate and simulate the RMS Source Current.
 
-## ⚙️ Simulation Settings (Simulink)
-The Simulink model is configured with the following parameters:
-* **Solver:** `ode23t (mod. stiff/Trapezoidal)`
-* **Stop Time:** `0.6` s
-* **Powergui:** Discrete, $T_s = 5e-6$ s
-
-## 🔌 Simulink Model
-The following circuit topology was implemented, including the $L_s$ inductors before the thyristors.
-
-![Circuit Diagram](Circuit.png)
-
 ## 🧮 Mathematical Background
+
 Due to the source inductance $L_s$, the current cannot change instantly from one phase to another. This overlap period is called the **Commutation Angle ($\mu$)**.
 
 **1. Average Load Voltage ($V_{dc}$):**
@@ -51,7 +50,28 @@ Where $I_d$ is the constant load current ($20 \text{ A}$).
 **2. Commutation Overlap:**
 During the interval $\mu$, two phases conduct simultaneously, and the output voltage follows the average of these two phase voltages, creating "notches" in the waveform.
 
-## 💻 MATLAB Code
+## ⚙️ System Topology & Simulation Model
+
+### Circuit Diagram & Simulink Model
+
+The following circuit topology was implemented, including the $L_s$ inductors before the thyristors.
+
+![Circuit Diagram](Circuit.png)
+
+###  Simulation Parameters
+
+The Simulink model is configured with the following parameters:
+
+| Field | Details |
+| :--- | :--- |
+| Solver | `ode23t (mod. stiff/Trapezoidal)` |
+| Stop Time | `0.6` s |
+| Powergui | Discrete, $T_s = 5e-6$ s |
+
+
+## 💻 Control Algorithm & Implementation
+
+### MATLAB Code
 
 ```matlab
 % =========================================================================
@@ -128,7 +148,7 @@ fprintf('2. RMS Source Current:      %.2f A\n', I_source_rms);
 
 ```
 
-## 📊 Simulation Results
+## 📊 Results & Discussion
 
 The simulation clearly shows the effect of source inductance.
 
@@ -145,6 +165,7 @@ The scope output below demonstrates the **Commutation Notches** on the load volt
 
 ![Scope Results](Scope.png)
 
-## 📂 Files
-* [Matlab_Calculation.m](Matlab_Calculation.m)
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
+## 📂 Project Files
+
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
