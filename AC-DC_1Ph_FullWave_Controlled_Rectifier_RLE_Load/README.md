@@ -1,37 +1,41 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # Single-Phase Full-Wave Controlled Rectifier with RLE Load
 
 This project presents the simulation and mathematical analysis of a **Single-Phase Full-Wave Fully Controlled Rectifier** connected to an **RLE Load** (Resistance, Inductance, and DC Voltage Source).
 
 ## 🎓 Project Information
-* **Course:** EEM312 Power Electronics
-* **Institution:** Sakarya University
-* **Term:** Spring 2016
-* **Instructor:** Prof. Dr. U. Arifoğlu
-* **Topic:** Term Project 4 - Full Bridge Rectifier with Battery Charging (RLE)
+
+| Field | Details |
+| :--- | :--- |
+| Course | EEM312 Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
 ## 📄 Problem Statement
+
 A single-phase full-wave controlled rectifier is connected to the grid and feeds an RLE load (simulating a battery charging scenario).
 
-**System Parameters:**
+### System Parameters
+
 * **Grid Voltage:** $V_{rms} = 220 \text{ V}$, $f = 50 \text{ Hz}$
 * **Load:** $R = 1 \, \Omega$, $L = 10 \text{ mH}$, $E = 220 \text{ V}$
 * **Firing Angle:** $\alpha = 90^\circ$
 * **Snubber Circuits:** $R_s = 5000 \, \Omega$, $C_s = 250 \, \mu F$
 
-**Objectives:**
+### Objective
+
 1.  Calculate Average Load Voltage ($V_{dc}$).
 2.  Calculate Average Load Current ($I_{dc}$).
 3.  Calculate RMS Load Current ($I_{rms}$).
 4.  Calculate RMS Source Current ($I_{s,rms}$).
 5.  Implement the circuit in Simulink.
 
-## ⚙️ Simulation Settings (Simulink)
-The Simulink model is configured with the following parameters:
-* **Solver:** `ode23tb`
-* **Stop Time:** `0.08` s
-* **Powergui:** Discrete, $T_s = 1e-6$ s
-
 ## 🧮 Mathematical Background
+
 The system is analyzed using the transient response of an RL circuit with a DC offset ($E$).
 
 **1. Conduction Condition:**
@@ -51,9 +55,32 @@ Due to the high value of $E$ and $\alpha=90^\circ$, the current is discontinuous
 * **When Conducting:** $v_o(t) = |v_s(t)|$
 * **When Current is Zero:** $v_o(t) = E$
 
-## 💻 MATLAB Code
+## ⚙️ System Topology & Simulation Model
+
+### Circuit Diagram & Simulink Model
+
+The following circuit topology was implemented in Simulink using the `Power Systems` blockset.
+
+![Circuit Diagram](Circuit.png)
+
+###  Simulation Parameters
+
+The Simulink model is configured with the following parameters:
+* **Solver:** 
+* **Stop Time:** 
+* **:** 
+
+| Field | Details |
+| :--- | :--- |
+| Solver | `ode23tb` |
+| Stop Time | `0.08` s |
+| Powergui | Discrete, $T_s = 1e-6$ s |
+
+## 💻 Control Algorithm & Implementation
 
 The following script solves the differential equation to find the extinction angle ($\beta$) and calculates the required values.
+
+### MATLAB Code
 
 ```matlab
 % =========================================================================
@@ -167,7 +194,7 @@ fprintf('d) RMS Source Current (Grid):        %.2f A\n', I_load_rms);
 
 ```
 
-## 📊 Simulation Results
+## 📊 Results & Discussion
 
 The simulation results confirm the theoretical analysis for the RLE load in discontinuous conduction mode.
 
@@ -189,6 +216,7 @@ The scope output below visualizes the system behavior:
 
 ![Scope Results](Scope.png)
 
-## 📂 Files
-* [Matlab_Calculation.m](Matlab_Calculation.m)
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
+## 📂 Project Files
+
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
