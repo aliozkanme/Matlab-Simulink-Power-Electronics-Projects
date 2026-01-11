@@ -1,26 +1,35 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # Single-Phase PWM Rectifier with Closed-Loop Control (IGBT)
 
 This project presents the simulation and design of a **Single-Phase PWM Rectifier** using an H-Bridge IGBT topology. The system is designed with a **Closed-Loop Control** strategy to track a varying reference voltage profile.
 
 ## 🎓 Project Information
-* **Course:** EEM312 Power Electronics
-* **Institution:** Sakarya University
-* **Term:** Spring 2016
-* **Instructor:** Prof. Dr. U. Arifoğlu
-* **Topic:** Term Project 6 (Part 1) - PWM Rectifier
+
+| Field | Details |
+| :--- | :--- |
+| Course | EEM312 Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
 ## 📄 Problem Statement
+
 The objective is to control the output voltage of a single-phase rectifier feeding a resistive load ($R=10\Omega$). The system must accurately track a step-down reference profile over a 3-second simulation.
 
-**System Parameters:**
-* **Topology:** H-Bridge PWM Rectifier (4 IGBTs) [cite: 221]
-* **Switching Frequency ($f_{sw}$):** $5 \text{ kHz}$ [cite: 252]
-* **Load:** $R = 10 \, \Omega$ [cite: 236]
-* **Grid:** Single Phase AC
-* **Snubber:** $R_s = 100 \, k\Omega$, $C_s = \text{inf}$ [cite: 380-382]
+### System Parameters
 
-**Reference Profile (Target Voltage):**
-[cite_start]The control loop must track the following values [cite: 258-270]:
+* **Topology:** H-Bridge PWM Rectifier (4 IGBTs)
+* **Switching Frequency ($f_{sw}$):** $5 \text{ kHz}$
+* **Load:** $R = 10 \, \Omega$
+* **Grid:** Single Phase AC
+* **Snubber:** $R_s = 100 \, k\Omega$, $C_s = \text{inf}$
+
+### Reference Profile (Target Voltage)
+
+The control loop must track the following values:
 * $0.0 - 0.5$ s: **180 V**
 * $0.5 - 1.0$ s: **140 V**
 * $1.0 - 1.5$ s: **100 V**
@@ -28,15 +37,25 @@ The objective is to control the output voltage of a single-phase rectifier feedi
 * $2.0 - 2.5$ s: **20 V**
 * $2.5 - 3.0$ s: **10 V**
 
-## ⚙️ Simulation Settings
-* **Simulation Time:** `3.0` s [cite: 495]
-* **Solver:** `ode23tb (stiff/TR-BDF2)` [cite: 496]
-* **Powergui:** Discrete, $T_s = 1e-6$ s [cite: 478]
+### Objective
 
-## 🔌 Circuit Diagram
-The circuit consists of a single-phase AC source, an IGBT H-Bridge, and a resistive load. A feedback loop compares the measured output voltage with the reference signal to adjust the PWM duty cycle.
+The primary objective of this project is to design and simulate a **Single-Phase PWM Rectifier** with a closed-loop control system. The specific goals are:
 
-![Circuit Diagram](Circuit.png)
+1.  **Closed-Loop Voltage Control:** 
+
+Implement a feedback mechanism to ensure the load voltage accurately tracks a dynamic reference signal (time-varying average voltage profile) requested by the customer.
+
+2.  **Error Minimization:** 
+
+Minimize the steady-state error between the desired reference voltage and the measured average output voltage to ensure precise tracking.
+
+3.  **PWM Generation:** 
+
+Design an Embedded MATLAB Function to generate PWM signals using a **5 kHz** triangular carrier wave frequency.
+
+4.  **Simulation Verification:** 
+
+Validate the control system's performance by matching the simulation output (Mean Voltage Scope) with the provided reference results.
 
 ## 🧮 Mathematical Background
 
@@ -64,8 +83,29 @@ $$V_{dc} = \frac{1}{T} \int_{0}^{T} v_{o}(t) \, dt$$
 
 The closed-loop system adjusts $V_{control}$ to modify $D$, ensuring that $V_{dc}$ tracks the reference voltage steps ($180V \rightarrow 10V$).
 
-## 💻 Embedded MATLAB Code (PWM Generator)
+## ⚙️ System Topology & Simulation Model
+
+### Circuit Diagram & Simulink Model
+
+The circuit consists of a single-phase AC source, an IGBT H-Bridge, and a resistive load. A feedback loop compares the measured output voltage with the reference signal to adjust the PWM duty cycle.
+
+![Circuit Diagram](Circuit.png)
+
+###  Simulation Parameters
+
+The Simulink model is configured with the following solver parameters for accurate power electronics simulation:
+
+| Field | Details |
+| :--- | :--- |
+| Solver | `ode23tb (stiff/TR-BDF2)` |
+| Simulation Time | `3.0` s |
+| Powergui | Discrete, $T_s = 1e-6$ s |
+
+## 💻 Control Algorithm & Implementation
+
 The following code is implemented inside the **Embedded MATLAB Function** block to generate the PWM signals. It creates a triangular carrier wave internally and compares it with the control signal ($V_s$).
+
+### Embedded MATLAB Code (PWM Generator)
 
 ```matlab
 function [e, isaret1, isaret2] = periyodik(Vs, t, f)
@@ -110,7 +150,8 @@ function [e, isaret1, isaret2] = periyodik(Vs, t, f)
 end
 
 ```
-## 💡 Technical Analysis of the Code
+
+### Code Logic & Explanation
 
 The code manually implements the **SPWM (Sinusoidal Pulse Width Modulation)** logic without using standard Simulink PWM blocks. Here is the detailed breakdown:
 
@@ -118,16 +159,11 @@ The code manually implements the **SPWM (Sinusoidal Pulse Width Modulation)** lo
 * **Comparator Logic:** The code acts as a relational operator comparing the control signal ($V_s$) from the controller with the generated carrier wave ($e$):
     * **When $V_s > \text{Carrier}$:** The output `signal1` is High. This turns ON **IGBTs 1 & 2**, connecting the source to the load.
     * **When $V_s < \text{Carrier}$:** The output `signal2` is High. This turns ON **IGBTs 3 & 4**, applying the inverted voltage (or zero) depending on the switching scheme.
-* **Variable Translation:**
-    * `periyodik` $\rightarrow$ `PWM_Generator`
-    * `e` $\rightarrow$ `carrier`
-    * `isaret` $\rightarrow$ `signal`
-    * `m` $\rightarrow$ `slope`
-    * `b` $\rightarrow$ `index`
 
 **Result:** This modulation varies the width of the voltage pulses applied to the load. A higher control voltage results in wider pulses, increasing the average output voltage ($V_{dc}$), which allows the system to track the reference steps accurately.
 
-## 📊 Simulation Results
+
+## 📊 Results & Discussion
 
 **1. Reference Voltage Profile:**
 The target voltage profile is defined using a Signal Builder block. It requires the system to step down from **180V to 10V** over a 3-second interval.
@@ -144,6 +180,7 @@ Superimposing the reference signal (Blue) and the measured mean output voltage (
 
 ![Comparison Graph](Signal_Compare.png)
 
-## 📂 Files
-* [Matlab_Function_Block_Code.m](Matlab_Function_Block_Code.m)
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
+## 📂 Project Files
+
+* [Matlab_PWM_Generator.m](Matlab_PWM_Generator.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
