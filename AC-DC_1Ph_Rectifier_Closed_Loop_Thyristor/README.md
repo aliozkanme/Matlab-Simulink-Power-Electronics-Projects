@@ -154,7 +154,7 @@ end
 
 ```
 
-### Control Logic
+### Code Logic & Explanation
 
 The system reads the desired average voltage ($V_{ref}$) from a Signal Builder and calculates the precise firing angle ($\alpha$) required to achieve that voltage using a numerical method (Newton-Raphson).
 * **T1 & T2:** Triggered during the positive half-cycle.
