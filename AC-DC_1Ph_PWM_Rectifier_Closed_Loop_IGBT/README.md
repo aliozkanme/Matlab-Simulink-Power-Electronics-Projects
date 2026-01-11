@@ -182,5 +182,5 @@ Superimposing the reference signal (Blue) and the measured mean output voltage (
 
 ## 📂 Project Files
 
-* [Matlab_PWM_Generator.m](Matlab_PWM_Generator.m) - MATLAB script for initializing variables (if used).
+* [Matlab_PWM_Generator.m](Matlab_PWM_Generator.m) - MATLAB script for initializing variables.
 * [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.

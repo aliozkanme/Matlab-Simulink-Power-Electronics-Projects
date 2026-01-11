@@ -139,5 +139,5 @@ The comparison between the Reference Signal (Blue) and the Load Voltage (Red) de
 
 ## 📂 Project Files
 
-* [Matlab_Carrier_Generator.m](Matlab_Carrier_Generator.m) - MATLAB script for initializing variables (if used).
+* [Matlab_Carrier_Generator.m](Matlab_Carrier_Generator.m) - MATLAB script for initializing variables.
 * [Simulink_Simulation.slx](Simulink_Simulation.slx) - The main Simulink model file.

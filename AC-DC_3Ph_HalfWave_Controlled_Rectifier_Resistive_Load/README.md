@@ -40,6 +40,7 @@ For a three-phase half-wave rectifier with a resistive load and $\alpha = 45^\ci
 The phase-to-neutral voltage peak ($V_m$) is derived from the line-to-line RMS voltage:
 
 $$V_{phase(rms)} = \frac{380}{\sqrt{3}} \approx 220 \text{ V}$$
+
 $$V_m = 220\sqrt{2} \approx 311 \text{ V}$$
 
 **2. Conduction Mode:**
@@ -80,7 +81,7 @@ The following script calculates the active power for the resistive load under di
 
 ```matlab
 % =========================================================================
-% PROJECT 02: 3-Phase Half-Wave Controlled Rectifier (Resistive Load)
+% PROJECT: 3-Phase Half-Wave Controlled Rectifier (Resistive Load)
 % Analytical Solution using MATLAB Symbolic Toolbox
 % =========================================================================
 
@@ -143,5 +144,5 @@ The scope output below visualizes the system behavior including Source Voltages,
 
 ## 📂 Project Files
 
-* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables.
 * [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.

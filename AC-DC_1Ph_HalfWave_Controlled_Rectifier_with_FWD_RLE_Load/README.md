@@ -166,5 +166,5 @@ Simulation results indicate that the load current decays to zero before the grid
 
 ## 📂 Project Files
 
-* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables.
 * [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.

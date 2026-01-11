@@ -152,27 +152,27 @@ i_fwd = simplify(i_fwd_sym);
 
 disp('--- CALCULATION RESULTS ---');
 
-% A) RMS VALUE OF SOURCE CURRENT
+% A) RMS SOURCE CURRENT
 % Source current flows only when Thyristor is ON (t_alpha to t_pi)
 % Formula: sqrt( (1/T) * integral(i_thy^2) )
 val_src = int(i_thy^2, t, t_alpha, t_pi);
 isource_rms = double(sqrt( (1/T) * val_src ));
 fprintf('1. RMS Source Current:       %.2f A\n', isource_rms);
 
-% B) RMS VALUE OF DIODE CURRENT
+% B) RMS DIODE CURRENT
 % Diode current flows from t_pi until it decays to 0.
 % Since Tau = L/R = 0.002s, it decays fast. We integrate from t_pi to T (next cycle).
 val_dio = int(i_fwd^2, t, t_pi, T); 
 idiode_rms = double(sqrt( (1/T) * val_dio ));
 fprintf('2. RMS Diode Current:        %.2f A\n', idiode_rms);
 
-% C) RMS VALUE OF LOAD CURRENT
+% C) RMS LOAD CURRENT
 % Load Current = Source Current (Interval 1) + Diode Current (Interval 2)
 % Since integrals are additive: Integral_Total = Integral_Src + Integral_Dio
 iload_rms = double(sqrt( (1/T) * (val_src + val_dio) ));
 fprintf('3. RMS Load Current:         %.2f A\n', iload_rms);
 
-% D) AVERAGE VALUE OF LOAD VOLTAGE
+% D) AVERAGE LOAD VOLTAGE
 % Voltage is Vm*sin(wt) during Thyristor ON, and 0 during Diode ON.
 % Vavg = (1/T) * integral(Vm*sin(wt)) from t_alpha to t_pi
 v_load_int = int(Vgrid_max * sin(w*t), t, t_alpha, t_pi);
@@ -201,5 +201,5 @@ The following scope result shows the current transferring to the freewheeling di
 
 ## 📂 Project Files
 
-* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables.
 * [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
