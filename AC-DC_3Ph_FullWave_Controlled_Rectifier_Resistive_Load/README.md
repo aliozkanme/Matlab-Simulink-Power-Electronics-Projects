@@ -1,36 +1,39 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # Three-Phase Full-Wave Controlled Rectifier with Resistive Load
 
 This project presents the simulation and mathematical analysis of a **Three-Phase Full-Wave Fully Controlled Rectifier (Graetz Bridge)** connected to a **Resistive (R) Load**.
 
 ## 🎓 Project Information
-* **Course:** EEM312 Power Electronics
-* **Institution:** Sakarya University
-* **Term:** Spring 2016
-* **Instructor:** Prof. Dr. U. Arifoğlu
-* **Topic:** Term Project 3 - Three-Phase Full Bridge Rectifier
+
+| Field | Details |
+| :--- | :--- |
+| Course | EEM312 Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
 ## 📄 Problem Statement
+
 A three-phase full-wave controlled rectifier is connected to a 3-phase grid ($380V_{L-L}$) and feeds a resistive load.
 
-**System Parameters:**
+### System Parameters
+
 * **Grid Voltage:** $V_{L-L(rms)} = 380 \text{ V}$, $f = 50 \text{ Hz}$
 * **Load:** $R = 10 \, \Omega$
 * **Snubber Circuits:** $R_s = 5000 \, \Omega$, $C_s = 250 \, \mu F$
 
-**Tasks:**
-The analysis is performed for two different firing angles:
-1.  **Case A:** $\alpha = 30^\circ$ (Continuous Conduction)
-2.  **Case B:** $\alpha = 90^\circ$ (Discontinuous Conduction for R-Load)
+### Objective
 
-For each case, the **Average Load Voltage ($V_{dc}$)** and **RMS Source Current (Phase A)** are calculated.
+1.  **System Analysis:** Analyze the performance of a **Three-Phase Full-Wave Controlled Rectifier** feeding a resistive load ($R=10\Omega$) under two distinct firing angles: $\alpha=30^\circ$ and $\alpha=90^\circ$.
+2.  **Performance Verification:** Calculate the **Average Load Voltage** and **RMS Grid Phase Current** using MATLAB analytical scripts.
+3.  **Simulation:** Design a Simulink model (using `ode23t` solver) to simulate the circuit for 0.08 seconds and validate the analytical results against the simulation outputs.
 
-## ⚙️ Simulation Settings (Simulink)
-The Simulink model is configured with the following parameters:
-* **Solver:** `ode23t (mod. stiff/Trapezoidal)`
-* **Stop Time:** `0.08` s
-* **Powergui:** Discrete, $T_s = 5e-6$ s
 
 ## 🧮 Mathematical Background
+
 The rectifier output voltage depends on the firing angle $\alpha$ and the load type.
 
 **1. Peak Line Voltage:**
@@ -49,9 +52,35 @@ For a resistive load, if $\alpha > 60^\circ$, the current becomes discontinuous 
 
 $$V_{dc} = \frac{3}{\pi} \int_{\pi/3+\alpha}^{\pi} V_{m,LL} \sin(\omega t) \, d(\omega t)$$
 
-## 💻 MATLAB Code
+## ⚙️ System Topology & Simulation Model
+
+The analysis is performed for two different firing angles:
+1.  **Case A:** $\alpha = 30^\circ$ (Continuous Conduction)
+2.  **Case B:** $\alpha = 90^\circ$ (Discontinuous Conduction for R-Load)
+
+For each case, the **Average Load Voltage ($V_{dc}$)** and **RMS Source Current (Phase A)** are calculated.
+
+### Circuit Diagram & Simulink Model
+
+The following circuit topology was implemented in Simulink using the `Power Systems` blockset.
+
+![Circuit Diagram](Circuit.png)
+
+###  Simulation Parameters
+
+The Simulink model is configured with the following parameters:
+
+| Field | Details |
+| :--- | :--- |
+| Solver | `ode23t (mod. stiff/Trapezoidal)` |
+| Stop Time | `0.08` s |
+| Powergui | Discrete, $T_s = 5e-6$ s |
+
+## 💻 Control Algorithm & Implementation
 
 The following script calculates the required values for both cases.
+
+### MATLAB Code
 
 ```matlab
 % =========================================================================
@@ -107,7 +136,7 @@ i_out_1 = (Vm_LL * sin(wt)) / R;
 val_i2 = int(i_out_1^2, wt, pi/3+alpha1_rad, 2*pi/3+alpha1_rad);
 % This is energy in one 60-deg pulse. Source conducts for 2 pulses per half cycle (positive and negative).
 % Actually source current flows for 120 deg in each half cycle (2 pulses).
-Is_rms_1 = double(sqrt( (1/pi) * val_i2 )); % Averaged over pi
+Is_rms_1 = double(sqrt( (1/pi) * 2 * val_i2 )); % Averaged over pi
 fprintf('2. RMS Phase Current (Is):       %.2f A\n', Is_rms_1);
 
 
@@ -140,12 +169,12 @@ i_inst_2 = (Vm_LL * sin(wt)) / R;
 val_i2_case2 = int(i_inst_2^2, wt, theta_start, theta_end);
 % Source current conducts for 2 such pulses in a half cycle (normally), 
 % but due to discontinuity, we integrate the energy.
-Is_rms_2 = double(sqrt( (1/pi) * val_i2_case2 ));
+Is_rms_2 = double(sqrt( (1/pi) * 2 * val_i2_case2 ));
 fprintf('2. RMS Phase Current (Is):       %.2f A\n', Is_rms_2);
 
 ```
 
-## 📊 Simulation Results
+## 📊 Results & Discussion
 
 The simulation results confirm the theoretical analysis for both continuous and discontinuous conduction modes.
 
@@ -173,6 +202,7 @@ The scope results below clearly illustrate the discontinuous nature of the outpu
 ![Power Scope Alpha 90](Circuit_2_Power_Scope.png)
 ![Firing Pulses Alpha 90](Circuit_2_Thyristors_Firing_Scope.png)
 
-## 📂 Files
-* [Matlab_Calculation.m](Matlab_Calculation.m)
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
+## 📂 Project Files
+
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.

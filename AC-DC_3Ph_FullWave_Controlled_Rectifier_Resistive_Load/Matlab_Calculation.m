@@ -51,7 +51,7 @@ i_out_1 = (Vm_LL * sin(wt)) / R;
 val_i2 = int(i_out_1^2, wt, pi/3+alpha1_rad, 2*pi/3+alpha1_rad);
 % This is energy in one 60-deg pulse. Source conducts for 2 pulses per half cycle (positive and negative).
 % Actually source current flows for 120 deg in each half cycle (2 pulses).
-Is_rms_1 = double(sqrt( (1/pi) * val_i2 )); % Averaged over pi
+Is_rms_1 = double(sqrt( (1/pi) * 2 * val_i2 )); % Averaged over pi
 fprintf('2. RMS Phase Current (Is):       %.2f A\n', Is_rms_1);
 
 
@@ -84,5 +84,5 @@ i_inst_2 = (Vm_LL * sin(wt)) / R;
 val_i2_case2 = int(i_inst_2^2, wt, theta_start, theta_end);
 % Source current conducts for 2 such pulses in a half cycle (normally), 
 % but due to discontinuity, we integrate the energy.
-Is_rms_2 = double(sqrt( (1/pi) * val_i2_case2 ));
+Is_rms_2 = double(sqrt( (1/pi) * 2 * val_i2_case2 ));
 fprintf('2. RMS Phase Current (Is):       %.2f A\n', Is_rms_2);
