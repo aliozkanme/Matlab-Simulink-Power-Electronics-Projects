@@ -1,19 +1,39 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # Single-Phase Controlled Rectifier (Thyristor) with Closed-Loop Control
 
 This project presents the simulation and design of a **Single-Phase Full-Wave Fully Controlled Rectifier** using Thyristors. Unlike open-loop systems, this design employs a **Closed-Loop Control** strategy that dynamically calculates the firing angle ($\alpha$) to track a specific reference voltage profile.
 
-## 📄 System Description
-The topology consists of a Full-Wave Bridge (Graetz) with 4 Thyristors feeding a resistive load ($R=10\Omega$).
+## 🎓 Project Information
 
-**Control Logic:**
-The system reads the desired average voltage ($V_{ref}$) from a Signal Builder and calculates the precise firing angle ($\alpha$) required to achieve that voltage using a numerical method (Newton-Raphson).
-* **T1 & T2:** Triggered during the positive half-cycle.
-* **T3 & T4:** Triggered during the negative half-cycle.
+| Field | Details |
+| :--- | :--- |
+| Course | EEM312 Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
-**System Parameters:**
+## 📄 Problem Statement
+
+The project requires the design and simulation of a **Single-Phase Full-Wave Fully Controlled Bridge Rectifier** connected to a standard low-voltage AC grid. The core challenge is to implement a **closed-loop control system** that dynamically regulates the output voltage. The system must ensure that the average voltage across the load accurately follows a specific time-varying reference profile requested by the customer, regardless of system variations.
+
+### System Parameters
+
+The topology utilized is a **Single-Phase Full-Wave Bridge Rectifier** consisting of four thyristors (T1, T2, T3, T4).
 * **Grid:** Single Phase, 50 Hz, 220V RMS
 * **Load:** Resistive, $R = 10 \, \Omega$
 * **Target Profile:** Step-down voltage profile (180V $\to$ 10V).
+* **Switching:** Controlled Thyristor Bridge. T1 and T2 conduct for the positive half-cycle, while T3 and T4 conduct for the negative half-cycle.
+
+
+### Objective
+
+1.  **Closed-Loop Design:** Construct a Simulink model for a single-phase full-wave controlled rectifier feeding a resistive load ($R=10 \Omega$).
+2.  **Algorithm Implementation:** Develop a control algorithm within an **Embedded MATLAB Function** to calculate the required firing angle ($\alpha$) based on the error between the reference and measured average voltage.
+3.  **Pulse Generation:** Generate synchronized firing signals where the T3-T4 thyristor pair is triggered exactly $0.01$ seconds ($180^\circ$ at $50$ Hz) after the T1-T2 pair.
+4.  **Simulation Validation:** Run the simulation for **3 seconds** using specific solver settings (`ode23tb`) to verify that the load voltage tracks the reference profile accurately.
 
 ## 🧮 Mathematical Background
 
@@ -36,17 +56,38 @@ $$\alpha_{n+1} = \alpha_n - \frac{f(\alpha_n)}{f'(\alpha_n)}$$
 
 Where the function to minimize is the error between calculated and reference voltage.
 
-## 🔌 Circuit Diagram
+## ⚙️ System Topology & Simulation Model
+
 The Simulink model below implements the closed-loop control system. It features:
 1.  **Signal Builder:** Generates the reference voltage steps.
 2.  **Alpha Calculator (Embedded MATLAB):** Computes the firing angle.
 3.  **Synchronization (Zero-Crossing):** Detects grid polarity to switch between thyristor pairs.
 
+### Circuit Diagram & Simulink Model
+
+The following circuit topology was implemented in Simulink using the `Power Systems` blockset.
+
 ![Circuit Diagram](Circuit.png)
 
-## 💻 Embedded MATLAB Functions
+###  Simulation Parameters
 
-### 1. Alpha Calculation (Newton-Raphson)
+The simulation is configured with high-precision solver settings to handle the switching transients of the power electronics components:
+
+| Field | Details |
+| :--- | :--- |
+| **Solver** | `ode23tb (stiff/TR-BDF2)` |
+| **PowerGUI Step Size** | `1e-6` (Discrete Time) |
+| **Simulation Duration** | `3.0` seconds |
+| **Control Method** | Closed-Loop via Embedded MATLAB Function |
+
+## 💻 Control Algorithm & Implementation
+
+The topology consists of a Full-Wave Bridge (Graetz) with 4 Thyristors and their controls feeding a resistive load ($R=10\Omega$).
+
+### Embedded MATLAB Code
+
+**1. Alpha Calculation (Newton-Raphson)**
+
 This block receives the reference voltage (`cikis`) and calculates the required firing angle (`giris`) using an iterative loop.
 
 ```matlab
@@ -93,7 +134,8 @@ end
 
 ```
 
-### 2. Zero Crossing Detection
+**2. Zero Crossing Detection**
+
 This block monitors the AC source voltage to determine the current half-cycle (Positive or Negative) for synchronization.
 
 ```matlab
@@ -112,7 +154,13 @@ end
 
 ```
 
-## 📊 Simulation Results
+### Control Logic
+
+The system reads the desired average voltage ($V_{ref}$) from a Signal Builder and calculates the precise firing angle ($\alpha$) required to achieve that voltage using a numerical method (Newton-Raphson).
+* **T1 & T2:** Triggered during the positive half-cycle.
+* **T3 & T4:** Triggered during the negative half-cycle.
+
+## 📊 Results & Discussion
 
 **1. Reference Voltage Profile:**
 The target voltage profile is defined using a Signal Builder block. It requires the system to step down from **180V to 10V** over a 3-second interval.
@@ -132,7 +180,8 @@ The system successfully adjusts the firing angle $\alpha$ to match the requested
 
 ![Comparison Graph](Signal_Compare.png)
 
-## 📂 Files
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
-* [Matlab_Function_Block.m](Matlab_Function_Block.m)
-* [Matlab_Zero_Crossing_Detector.m](Matlab_Zero_Crossing_Detector.m)
+## 📂 Project Files
+
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Matlab_Zero_Crossing_Detector.m](Matlab_Zero_Crossing_Detector.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
