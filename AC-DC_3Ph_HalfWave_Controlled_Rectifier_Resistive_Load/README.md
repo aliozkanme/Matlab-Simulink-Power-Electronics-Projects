@@ -1,37 +1,39 @@
+> 🇹🇷 **[Türkçe Versiyon İçin Tıklayınız / Click for Turkish Version](README_TR.md)**
+
+---
+
 # Three-Phase Half-Wave Controlled Rectifier with Resistive Load
 
 This project presents the simulation and mathematical analysis of a **Three-Phase Half-Wave Controlled Rectifier** connected to a **Resistive (R) Load**. The system is supplied directly from a 3-phase grid.
 
 ## 🎓 Project Information
-* **Course:** EEM312 Power Electronics
-* **Institution:** Sakarya University
-* **Term:** Spring 2016
-* **Instructor:** Prof. Dr. U. Arifoğlu
-* **Topic:** Term Project 2 - Three-Phase Rectifier with Resistive Load
+
+| Field | Details |
+| :--- | :--- |
+| Course | EEM312 Power Electronics |
+| Institution | Sakarya University |
+| Term | Spring 2016 |
+| Instructor | Prof. Dr. U. Arifoğlu |
 
 ## 📄 Problem Statement
+
 A three-phase half-wave controlled rectifier is connected to a 3-phase grid ($380V_{L-L}$) and feeds a resistive load.
 
-**System Parameters:**
+### System Parameters
+
 * **Grid Voltage:** $V_{L-L(rms)} = 380 \text{ V}$, $f = 50 \text{ Hz}$
 * **Load:** $R = 10 \, \Omega$
 * **Firing Angle:** $\alpha = 45^\circ$
 * **Snubber Circuits:** $R_s = 5000 \, \Omega$, $C_s = 250 \, \mu F$ (per thyristor)
 
-**Objectives:**
+### Objective
+
 1.  Calculate the Total Active Power consumed by the load ($P_{load}$).
 2.  Calculate the Total Active Power drawn from the 3-phase grid ($P_{grid}$).
 3.  Perform analytical calculations using MATLAB Symbolic Toolbox.
 
-## ⚙️ Simulation Settings (Simulink)
-The Simulink model is configured with the following solver parameters:
-* **Solver:** `ode23tb (stiff/TR-BDF2)`
-* **Max Step Size:** `auto`
-* **Relative Tolerance:** `1e-3`
-* **Stop Time:** `0.08` s
-* **Powergui:** Discrete, $T_s = 5e-6$ s
-
 ## 🧮 Mathematical Background
+
 For a three-phase half-wave rectifier with a resistive load and $\alpha = 45^\circ$:
 
 **1. Phase Voltages:**
@@ -50,9 +52,31 @@ The average power is calculated by integrating the instantaneous power over one 
 
 $$P_{avg} = \frac{3}{2\pi} \int_{30^\circ+\alpha}^{180^\circ} \frac{(V_m \sin \omega t)^2}{R} \, d(\omega t)$$
 
-## 💻 MATLAB Code
+## ⚙️ System Topology & Simulation Model
+
+### Circuit Diagram & Simulink Model
+
+The following circuit topology was implemented in Simulink using the `Power Systems` blockset.
+
+![Circuit Diagram](Circuit.png)
+
+###  Simulation Parameters
+
+The Simulink model is configured with the following solver parameters:
+
+| Field | Details |
+| :--- | :--- |
+| Solver | `ode23tb (stiff/TR-BDF2)` |
+| Max Step Size | `auto` |
+| Relative Tolerance | `1e-3` |
+| Stop Time | `0.08` s |
+| Powergui | Discrete, $T_s = 5e-6$ s |
+
+## 💻 Control Algorithm & Implementation
 
 The following script calculates the active power for the resistive load under discontinuous conduction.
+
+### MATLAB Code
 
 ```matlab
 % =========================================================================
@@ -108,7 +132,7 @@ fprintf('End Angle (deg):         %.2f\n', rad2deg(theta_end));
 
 ```
 
-## 📊 Simulation Results
+## 📊 Results & Discussion
 
 The simulation confirms the theoretical analysis. As seen in the circuit diagram, the measured Total Active Power is **4777.84 W**.
 
@@ -117,6 +141,7 @@ The scope output below visualizes the system behavior including Source Voltages,
 
 ![Scope Results](Scope.png)
 
-## 📂 Files
-* [Matlab_Calculation.m](Matlab_Calculation.m)
-* [Simulink_Simulation.mdl](Simulink_Simulation.mdl)
+## 📂 Project Files
+
+* [Matlab_Calculation.m](Matlab_Calculation.m) - MATLAB script for initializing variables (if used).
+* [Simulink_Simulation.mdl](Simulink_Simulation.mdl) - The main Simulink model file.
