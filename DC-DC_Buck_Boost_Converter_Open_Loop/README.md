@@ -34,15 +34,6 @@ The converter is powered by a 15V DC source and supplies a resistive load ($R=10
 3.  **Dynamic Tracking:** Implement a control mechanism where the load voltage follows a specific time-varying profile defined by a **Signal Builder** block.
 4.  **Performance Analysis:** Analyze the voltage and current waveforms under a switching frequency of **15 kHz**.
 
-### Simulation Parameters
-
-The simulation is configured with the following specific values and solver settings:
-
-| Fiels | Details |
-| :--- | :---: |
-| **Simulation Mode** | Discrete |
-| **Sample Time** |  $T_s$ User Defined s |
-
 ## 🧮 Mathematical Background
 
 The Buck-Boost converter is an inverting topology where the output voltage polarity is opposite to the input. However, considering the magnitude, it can step voltage up or down based on the Duty Cycle ($D$).
@@ -75,7 +66,12 @@ The Simulink model below implements the closed-loop control. It compares the mea
 
 ### Simulation Parameters
 
+The simulation is configured with the following specific values and solver settings:
 
+| Fiels | Details |
+| :--- | :---: |
+| **Simulation Mode** | Discrete |
+| **Sample Time** |  $T_s$ User Defined s |
 
 ## 💻 Control Algorithm & Implementation
 
