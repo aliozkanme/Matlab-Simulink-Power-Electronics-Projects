@@ -195,16 +195,7 @@ fprintf('d) RMS Source Current (Grid):        %.2f A\n', I_load_rms);
 
 The simulation results confirm the theoretical analysis for the RLE load in discontinuous conduction mode.
 
-**1. Quantitative Measurements:**
-As seen in the circuit display blocks:
-* **Average Load Voltage ($V_{dc}$):** 223.5 V
-* **Average Load Current ($I_{dc}$):** 3.544 A
-* **RMS Load Current ($I_{rms}$):** 6.049 A
-* **RMS Source Current ($I_{s,rms}$):** 6.087 A
-
-![Circuit Diagram](Circuit.png)
-
-**2. Waveform Analysis:**
+**1. Waveform Analysis:**
 The scope output below visualizes the system behavior:
 * **Row 1 (Source Voltage):** Sinusoidal input.
 * **Row 2 (Source Current):** AC current pulses with zero intervals, confirming discontinuous conduction.
