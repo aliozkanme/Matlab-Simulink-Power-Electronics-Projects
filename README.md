@@ -20,7 +20,7 @@ Simulation projects for Power Electronics circuits using MATLAB/Simulink.
 
 ## 📂 Projects
 
-[Buraya Projelerin Listesi Gelecek]
+
 
 ---
 
