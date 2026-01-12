@@ -1,4 +1,4 @@
-name: Update Project List
+name: Update Project List 
 
 on:
   # Hem main hem master branch'e yükleme yapılınca çalışır
