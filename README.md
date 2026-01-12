@@ -8,7 +8,7 @@
     <img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" height="20"/>
   </a>
   <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="license"/>
-  <img src="https://img.shields.io/github/last-commit/aliozkanme/Matlab-Simulink-Portfolio" alt="last commit"/>
+  <img src="https://img.shields.io/github/last-commit/aliozkanme/Matlab-Simulink-Power-Electronics-Projects" alt="last commit"/>
 </p>
 
 ---
