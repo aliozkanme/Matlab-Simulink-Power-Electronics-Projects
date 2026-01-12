@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="80" src="logo/matlab.png" alt="Matlab Simulink Logo">
+  <img height="80" src="logo_matlab&simulink.png" alt="Matlab Simulink Logo">
 </p>
 <h1 align="center">Matlab / Simulink Portfolio</h1>
 
