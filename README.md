@@ -20,7 +20,19 @@ Simulation projects for Power Electronics circuits using MATLAB/Simulink.
 
 <div id="list-start"></div>
 
-
+- [AC-DC_1Ph_FullWave_Controlled_Rectifier_RLE_Load](./AC-DC_1Ph_FullWave_Controlled_Rectifier_RLE_Load)
+- [AC-DC_1Ph_HalfWave_Controlled_Rectifier_with_FWD_RLE_Load](./AC-DC_1Ph_HalfWave_Controlled_Rectifier_with_FWD_RLE_Load)
+- [AC-DC_1Ph_HalfWave_Controlled_Rectifier_with_FWD_RL_Load](./AC-DC_1Ph_HalfWave_Controlled_Rectifier_with_FWD_RL_Load)
+- [AC-DC_1Ph_PWM_Rectifier_Closed_Loop_IGBT](./AC-DC_1Ph_PWM_Rectifier_Closed_Loop_IGBT)
+- [AC-DC_1Ph_Rectifier_Closed_Loop_Thyristor](./AC-DC_1Ph_Rectifier_Closed_Loop_Thyristor)
+- [AC-DC_3Ph_FullWave_Controlled_Rectifier_Resistive_Load](./AC-DC_3Ph_FullWave_Controlled_Rectifier_Resistive_Load)
+- [AC-DC_3Ph_FullWave_Rectifier_with_Source_Inductance](./AC-DC_3Ph_FullWave_Rectifier_with_Source_Inductance)
+- [AC-DC_3Ph_HalfWave_Controlled_Rectifier_Resistive_Load](./AC-DC_3Ph_HalfWave_Controlled_Rectifier_Resistive_Load)
+- [AC-DC_3Ph_HalfWave_Rectifier_with_Source_Inductance](./AC-DC_3Ph_HalfWave_Rectifier_with_Source_Inductance)
+- [DC-AC_1Ph_Inverter_Unipolar](./DC-AC_1Ph_Inverter_Unipolar)
+- [DC-DC_Buck_Boost_Converter_Open_Loop](./DC-DC_Buck_Boost_Converter_Open_Loop)
+- [DC-DC_Buck_Converter_Open_Loop](./DC-DC_Buck_Converter_Open_Loop)
+- [Test-File-X](./Test-File-X)
 
 <div id="list-end"></div>
 
