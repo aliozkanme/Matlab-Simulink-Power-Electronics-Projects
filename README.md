@@ -13,7 +13,7 @@
 
 ---
 
-[Buraya Proje Açıklaması / Introduction Gelecek]
+Simulation projects for Power Electronics circuits using MATLAB/Simulink.
 
 ---
 
