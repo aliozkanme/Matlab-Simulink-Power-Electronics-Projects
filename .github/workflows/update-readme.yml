@@ -1,117 +1,91 @@
 name: Update Project List
 
-# Trigger: Run on push to main/master OR manually via button
 on:
   push:
     branches:
       - main
       - master
+    # İŞTE KİLİT NOKTA BURASI:
+    # Bu ayar, sadece README.md değiştiğinde botun çalışmasını ENGELLER.
     paths-ignore:
-      - 'README.md' # Prevent trigger if only README changes
-  workflow_dispatch: # Allows manual run from Actions tab
+      - 'README.md' 
+  workflow_dispatch:
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Important: Permission to write to the repo
+      contents: write
       
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0 # Get full history
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v3
+    
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.9'
         
-    - name: Run Python Script to Update List
+    - name: Scripti Calistir
       shell: python
       run: |
         import os
         import re
-        import sys
 
-        # --- CONFIGURATION ---
         ROOT_DIR = "."
         MAIN_README = "README.md"
         START_MARKER = ""
         END_MARKER = ""
 
-        print(f"--- Working Directory: {os.getcwd()} ---")
-
-        # 1. SCAN PROJECTS
-        # Scan directories and find README.md files to extract titles
+        # 1. Projeleri Bul
         projects = []
-        try:
-            items = sorted(os.listdir(ROOT_DIR))
-            for item in items:
-                # Filter: Must be a directory and not hidden (e.g., .git)
-                if os.path.isdir(item) and not item.startswith('.'):
-                    readme_path = os.path.join(item, "README.md")
-                    if os.path.exists(readme_path):
-                        # Default title is the folder name
-                        title = item 
-                        # Try to read the first H1 header (# Title) from the file
+        # Klasörleri isme göre sırala
+        for item in sorted(os.listdir(ROOT_DIR)):
+            if os.path.isdir(item) and not item.startswith('.'):
+                readme_path = os.path.join(item, "README.md")
+                if os.path.exists(readme_path):
+                    title = item
+                    # Başlığı çekmeyi dene
+                    try:
                         with open(readme_path, 'r', encoding='utf-8') as f:
                             for line in f:
                                 if line.strip().startswith('# '):
                                     title = line.strip()[2:].strip()
                                     break
-                        
-                        print(f"Found Project: {title} ({item})")
-                        # Format: - [Project Title](./FolderName)
-                        link = f"- [{title}](./{item})"
-                        projects.append(link)
-        except Exception as e:
-            print(f"Error during scan: {e}")
-            sys.exit(1)
+                    except:
+                        pass
+                    projects.append(f"- [{title}](./{item})")
 
-        # Create the new list content
-        if projects:
-            new_list_content = "\n".join(projects)
-        else:
-            new_list_content = "No projects found yet."
+        # Yeni içerik bloğunu hazırla
+        new_content_block = f"{START_MARKER}\n" + "\n".join(projects) + f"\n{END_MARKER}"
 
-        # 2. UPDATE MAIN README
-        if not os.path.exists(MAIN_README):
-            print(f"Error: {MAIN_README} not found.")
-            sys.exit(1)
-        
-        with open(MAIN_README, 'r', encoding='utf-8') as f:
-            content = f.read()
+        # 2. Dosyayı Oku ve Değiştir
+        if os.path.exists(MAIN_README):
+            with open(MAIN_README, 'r', encoding='utf-8') as f:
+                content = f.read()
 
-        # Check if markers exist
-        if START_MARKER not in content or END_MARKER not in content:
-            print("Error: Markers not found in README.md. Please add them manually.")
-            # We exit here to avoid appending to the end and causing mess
-            sys.exit(1) 
+            # Regex ile iki marker arasını bul
+            pattern = re.compile(f"{re.escape(START_MARKER)}.*?{re.escape(END_MARKER)}", re.DOTALL)
+            
+            # Eğer markerlar varsa içeriği değiştir
+            if pattern.search(content):
+                updated_content = pattern.sub(new_content_block, content)
+                
+                # Sadece değişiklik varsa kaydet
+                if updated_content != content:
+                    with open(MAIN_README, 'w', encoding='utf-8') as f:
+                        f.write(updated_content)
+                    print("GUNCELLEME BASARILI: Proje listesi yenilendi.")
+                else:
+                    print("DEGISIKLIK YOK: Liste zaten güncel.")
+            else:
+                print("UYARI: Markerlar bulunamadı! Dosyaya dokunulmadı.")
+                print("Lütfen README.md dosyanıza şu iki satırı ekleyin:")
+                print("")
+                print("")
 
-        # Regex replacement between markers
-        pattern = re.compile(f"{re.escape(START_MARKER)}.*?{re.escape(END_MARKER)}", re.DOTALL)
-        replacement = f"{START_MARKER}\n{new_list_content}\n{END_MARKER}"
-        
-        updated_content = pattern.sub(replacement, content)
-
-        if updated_content != content:
-            with open(MAIN_README, 'w', encoding='utf-8') as f:
-                f.write(updated_content)
-            print("README.md successfully updated locally.")
-        else:
-            print("No changes needed. README is up to date.")
-
-    - name: Commit and Push Changes
+    - name: Commit ve Push
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        
-        # Pull latest changes to avoid conflicts
-        git pull 
-        
         git add README.md
-        
-        # Commit only if there are changes. 
-        # [skip ci] is CRITICAL: It tells GitHub Actions NOT to trigger a new build, preventing infinite loops.
-        git diff --quiet && git diff --staged --quiet || (git commit -m "docs: auto-update project list [skip ci]" && git push)
+        # Değişiklik varsa gönder, yoksa sessizce çık
+        git diff --quiet && git diff --staged --quiet || (git commit -m "docs: proje listesi guncellendi" && git push)
