@@ -1,0 +1,94 @@
+name: Update Project List
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+    - uses: actions/checkout@v3
+    
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Run Python Script (Auto-Add Markers if Missing)
+      shell: python
+      run: |
+        import os
+        import re
+
+        # --- AYARLAR ---
+        ROOT_DIR = "."
+        MAIN_README = "README.md"
+        # Scriptin arayacağı ve yoksa ekleyeceği işaretleyiciler:
+        START_MARKER = ""
+        END_MARKER = ""
+        HEADER_TEXT = "\n## 📂 Projects\n" # Markerlar yoksa eklenecek başlık
+
+        def get_project_title(readme_path):
+            """Proje klasöründeki README'den başlığı çeker"""
+            if not os.path.exists(readme_path): return None
+            with open(readme_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.strip().startswith('# '):
+                        return line.strip()[2:].strip()
+            return None
+
+        # 1. Projeleri Tara ve Listeyi Oluştur
+        projects = []
+        for item in os.listdir(ROOT_DIR):
+            if os.path.isdir(item) and not item.startswith('.'):
+                readme_path = os.path.join(item, "README.md")
+                if os.path.exists(readme_path):
+                    title = get_project_title(readme_path)
+                    if title:
+                        projects.append(f"- [{title}](./{item})")
+        
+        projects.sort()
+        content_list = "\n".join(projects)
+        
+        # 2. Ana README'yi Oku veya Oluştur
+        if not os.path.exists(MAIN_README):
+            # Dosya hiç yoksa oluştur
+            content = f"# Matlab / Simulink Portfolio\n\n{HEADER_TEXT}{START_MARKER}\n{END_MARKER}\n"
+        else:
+            with open(MAIN_README, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+        # 3. İşaretleyiciler (Markers) Kontrolü ve Otomatik Ekleme
+        if START_MARKER not in content or END_MARKER not in content:
+            print("Markerlar bulunamadı, dosya sonuna ekleniyor...")
+            # Dosyanın sonuna Başlık + Markerları ekle
+            content += f"\n{HEADER_TEXT}{START_MARKER}\n{END_MARKER}\n"
+
+        # 4. İçeriği Güncelle
+        # Regex ile iki marker arasını bul ve yeni liste ile değiştir
+        pattern = re.compile(f"{re.escape(START_MARKER)}.*?{re.escape(END_MARKER)}", re.DOTALL)
+        new_block = f"{START_MARKER}\n{content_list}\n{END_MARKER}"
+        
+        updated_content = pattern.sub(new_block, content)
+        
+        # 5. Dosyayı Kaydet
+        if updated_content != content:
+            with open(MAIN_README, 'w', encoding='utf-8') as f:
+                f.write(updated_content)
+            print("README.md güncellendi.")
+        else:
+            print("Değişiklik yok.")
+
+    - name: Commit and Push
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add README.md
+        git commit -m "docs: proje listesi otomatik guncellendi" || exit 0
+        git push
