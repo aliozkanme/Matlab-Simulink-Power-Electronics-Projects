@@ -2,7 +2,7 @@ import os
 
 def update_readme_projects():
     # Configuration for file name and markers
-    readme_filename = "example.md"
+    readme_filename = "README.md"
     start_marker = '<div id="list-start"></div>'
     end_marker = '<div id="list-end"></div>'
 
@@ -23,7 +23,7 @@ def update_readme_projects():
     md_lines = [f"- [{folder}](./{folder})" for folder in folders]
     new_content_block = "\n".join(md_lines)
 
-    # 3. Read the existing example.md file
+    # 3. Read the existing README.md file
     try:
         with open(readme_filename, 'r', encoding='utf-8') as file:
             content = file.read()
@@ -47,7 +47,7 @@ def update_readme_projects():
         # Combine: Header + Newlines + New List + Newlines + Footer
         updated_content = f"{header_part}\n\n{new_content_block}\n\n{footer_part}"
 
-        # 6. Write the updated content back to example.md
+        # 6. Write the updated content back to README.md
         with open(readme_filename, 'w', encoding='utf-8') as file:
             file.write(updated_content)
         
