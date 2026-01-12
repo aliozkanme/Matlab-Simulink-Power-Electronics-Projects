@@ -30,7 +30,7 @@ jobs:
       # Navigate to the target directory where the script and README are located
       - name: Run Indexer Script
         run: |
-          python scripts/list-updater.py
+          python scripts/markdown-folder-indexer.py
 
       # 4. Commit and Push changes if detected
       # Configuring git user as github-actions bot
