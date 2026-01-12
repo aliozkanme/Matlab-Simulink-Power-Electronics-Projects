@@ -1,0 +1,106 @@
+name: Update Project List
+
+on:
+  # Hem main hem master branch'e yükleme yapılınca çalışır
+  push:
+    branches:
+      - main
+      - master
+    paths-ignore:
+      - 'README.md' # Sonsuz döngüyü önler
+  # Actions sekmesinden elle çalıştırma butonu ekler
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Yazma izni şart
+      
+    steps:
+    - name: Depoyu Çek
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # Git geçmişini tam al
+
+    - name: Python Kurulumu
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Projeleri Tara ve README Güncelle
+      shell: python
+      run: |
+        import os
+        import re
+        import sys
+
+        # --- AYARLAR ---
+        ROOT_DIR = "."
+        MAIN_README = "README.md"
+        START_MARKER = ""
+        END_MARKER = ""
+        
+        print(f"--- Çalışma Dizini: {os.getcwd()} ---")
+
+        # 1. Projeleri Listele
+        projects = []
+        try:
+            items = sorted(os.listdir(ROOT_DIR))
+            for item in items:
+                # Sadece klasörleri al, gizli klasörleri (.git gibi) atla
+                if os.path.isdir(item) and not item.startswith('.'):
+                    readme_path = os.path.join(item, "README.md")
+                    if os.path.exists(readme_path):
+                        # Başlığı bul
+                        title = item # Varsayılan olarak klasör adı
+                        with open(readme_path, 'r', encoding='utf-8') as f:
+                            for line in f:
+                                if line.strip().startswith('# '):
+                                    title = line.strip()[2:].strip()
+                                    break
+                        
+                        print(f"Bulunan Proje: {title} ({item})")
+                        link = f"- [{title}](./{item})"
+                        projects.append(link)
+        except Exception as e:
+            print(f"Hata oluştu: {e}")
+            sys.exit(1)
+
+        new_list_content = "\n".join(projects) if projects else "Henüz proje eklenmemiş."
+        print(f"--- Oluşturulan Liste ---\n{new_list_content}\n-------------------------")
+
+        # 2. Ana README Dosyasını Kontrol Et
+        if not os.path.exists(MAIN_README):
+            print(f"{MAIN_README} bulunamadı, yeni oluşturuluyor.")
+            with open(MAIN_README, 'w', encoding='utf-8') as f:
+                f.write(f"# Matlab Portfolio\n\n## 📂 Projects\n{START_MARKER}\n{END_MARKER}\n")
+        
+        with open(MAIN_README, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        # 3. Marker Yoksa Ekle
+        if START_MARKER not in content:
+            content += f"\n\n## 📂 Projects\n{START_MARKER}\n{END_MARKER}\n"
+
+        # 4. İçeriği Değiştir
+        pattern = re.compile(f"{re.escape(START_MARKER)}.*?{re.escape(END_MARKER)}", re.DOTALL)
+        replacement = f"{START_MARKER}\n{new_list_content}\n{END_MARKER}"
+        
+        updated_content = pattern.sub(replacement, content)
+
+        if updated_content != content:
+            with open(MAIN_README, 'w', encoding='utf-8') as f:
+                f.write(updated_content)
+            print("Dosya güncellendi.")
+        else:
+            print("Değişiklik yok, dosya zaten güncel.")
+
+    - name: Değişiklikleri Git'e İşle
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git pull # Çakışmaları önlemek için önce çek
+        git add README.md
+        # Değişiklik varsa commit at, yoksa hata verme devam et
+        git diff --quiet && git diff --staged --quiet || (git commit -m "docs: proje listesi guncellendi" && git push)
