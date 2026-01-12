@@ -1,106 +1,94 @@
-name: Update Project List 
+name: Update Project List
 
 on:
-  # Hem main hem master branch'e yükleme yapılınca çalışır
   push:
     branches:
       - main
-      - master
     paths-ignore:
-      - 'README.md' # Sonsuz döngüyü önler
-  # Actions sekmesinden elle çalıştırma butonu ekler
-  workflow_dispatch:
+      - 'README.md'
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Yazma izni şart
+      contents: write
       
     steps:
-    - name: Depoyu Çek
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0 # Git geçmişini tam al
-
-    - name: Python Kurulumu
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v3
+    
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.9'
         
-    - name: Projeleri Tara ve README Güncelle
+    - name: Run Python Script (Auto-Add Markers if Missing)
       shell: python
       run: |
         import os
         import re
-        import sys
 
         # --- AYARLAR ---
         ROOT_DIR = "."
         MAIN_README = "README.md"
+        # Scriptin arayacağı ve yoksa ekleyeceği işaretleyiciler:
         START_MARKER = ""
         END_MARKER = ""
-        
-        print(f"--- Çalışma Dizini: {os.getcwd()} ---")
+        HEADER_TEXT = "\n## 📂 Projects\n" # Markerlar yoksa eklenecek başlık
 
-        # 1. Projeleri Listele
+        def get_project_title(readme_path):
+            """Proje klasöründeki README'den başlığı çeker"""
+            if not os.path.exists(readme_path): return None
+            with open(readme_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line.strip().startswith('# '):
+                        return line.strip()[2:].strip()
+            return None
+
+        # 1. Projeleri Tara ve Listeyi Oluştur
         projects = []
-        try:
-            items = sorted(os.listdir(ROOT_DIR))
-            for item in items:
-                # Sadece klasörleri al, gizli klasörleri (.git gibi) atla
-                if os.path.isdir(item) and not item.startswith('.'):
-                    readme_path = os.path.join(item, "README.md")
-                    if os.path.exists(readme_path):
-                        # Başlığı bul
-                        title = item # Varsayılan olarak klasör adı
-                        with open(readme_path, 'r', encoding='utf-8') as f:
-                            for line in f:
-                                if line.strip().startswith('# '):
-                                    title = line.strip()[2:].strip()
-                                    break
-                        
-                        print(f"Bulunan Proje: {title} ({item})")
-                        link = f"- [{title}](./{item})"
-                        projects.append(link)
-        except Exception as e:
-            print(f"Hata oluştu: {e}")
-            sys.exit(1)
-
-        new_list_content = "\n".join(projects) if projects else "Henüz proje eklenmemiş."
-        print(f"--- Oluşturulan Liste ---\n{new_list_content}\n-------------------------")
-
-        # 2. Ana README Dosyasını Kontrol Et
+        for item in os.listdir(ROOT_DIR):
+            if os.path.isdir(item) and not item.startswith('.'):
+                readme_path = os.path.join(item, "README.md")
+                if os.path.exists(readme_path):
+                    title = get_project_title(readme_path)
+                    if title:
+                        projects.append(f"- [{title}](./{item})")
+        
+        projects.sort()
+        content_list = "\n".join(projects)
+        
+        # 2. Ana README'yi Oku veya Oluştur
         if not os.path.exists(MAIN_README):
-            print(f"{MAIN_README} bulunamadı, yeni oluşturuluyor.")
-            with open(MAIN_README, 'w', encoding='utf-8') as f:
-                f.write(f"# Matlab Portfolio\n\n## 📂 Projects\n{START_MARKER}\n{END_MARKER}\n")
-        
-        with open(MAIN_README, 'r', encoding='utf-8') as f:
-            content = f.read()
+            # Dosya hiç yoksa oluştur
+            content = f"# Matlab / Simulink Portfolio\n\n{HEADER_TEXT}{START_MARKER}\n{END_MARKER}\n"
+        else:
+            with open(MAIN_README, 'r', encoding='utf-8') as f:
+                content = f.read()
 
-        # 3. Marker Yoksa Ekle
-        if START_MARKER not in content:
-            content += f"\n\n## 📂 Projects\n{START_MARKER}\n{END_MARKER}\n"
+        # 3. İşaretleyiciler (Markers) Kontrolü ve Otomatik Ekleme
+        if START_MARKER not in content or END_MARKER not in content:
+            print("Markerlar bulunamadı, dosya sonuna ekleniyor...")
+            # Dosyanın sonuna Başlık + Markerları ekle
+            content += f"\n{HEADER_TEXT}{START_MARKER}\n{END_MARKER}\n"
 
-        # 4. İçeriği Değiştir
+        # 4. İçeriği Güncelle
+        # Regex ile iki marker arasını bul ve yeni liste ile değiştir
         pattern = re.compile(f"{re.escape(START_MARKER)}.*?{re.escape(END_MARKER)}", re.DOTALL)
-        replacement = f"{START_MARKER}\n{new_list_content}\n{END_MARKER}"
+        new_block = f"{START_MARKER}\n{content_list}\n{END_MARKER}"
         
-        updated_content = pattern.sub(replacement, content)
-
+        updated_content = pattern.sub(new_block, content)
+        
+        # 5. Dosyayı Kaydet
         if updated_content != content:
             with open(MAIN_README, 'w', encoding='utf-8') as f:
                 f.write(updated_content)
-            print("Dosya güncellendi.")
+            print("README.md güncellendi.")
         else:
-            print("Değişiklik yok, dosya zaten güncel.")
+            print("Değişiklik yok.")
 
-    - name: Değişiklikleri Git'e İşle
+    - name: Commit and Push
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git pull # Çakışmaları önlemek için önce çek
         git add README.md
-        # Değişiklik varsa commit at, yoksa hata verme devam et
-        git diff --quiet && git diff --staged --quiet || (git commit -m "docs: proje listesi guncellendi" && git push)
+        git commit -m "docs: proje listesi otomatik guncellendi" || exit 0
+        git push
