@@ -1,93 +1,89 @@
-name: Update Project List
-
-# Trigger the workflow on push to main or master branches
+name: Update Projects List
 on:
   push:
     branches:
       - main
-      - master
-  workflow_dispatch: # Allows manual triggering from the Actions tab
+    paths-ignore: # CRITICAL: Prevents workflow from triggering on README changes
+      - 'README.md'
+  workflow_dispatch: # Allows manual triggering
 
-# Grant permission to write changes back to the repository
 permissions:
-  contents: write
+  contents: write # Required for workflow to commit changes
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-    
     steps:
-      # Step 1: Check out the repository code
-      - uses: actions/checkout@v3
-      
-      # Step 2: Install Python environment
-      - uses: actions/setup-python@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          python-version: '3.9'
-          
-      # Step 3: Run the embedded Python script to generate the project list
-      - name: Generate Project List using Python
-        shell: python
+          fetch-depth: 0
+
+      - name: Generate and update projects list
         run: |
+          python3 << 'EOF'
           import os
           import re
-
-          # Configuration variables
-          readme_file = "README.md"
-          start_marker = ""
-          end_marker = ""
-
-          # Get list of subdirectories that contain a README.md
-          projects = []
-          if os.path.exists("."):
-              # Loop through all items in the root directory
-              for item in sorted(os.listdir(".")):
-                  # Check if it is a directory and not hidden (ignoring .git, .github)
-                  if os.path.isdir(item) and not item.startswith("."):
-                      # Verify if a README exists inside the folder to consider it a project
-                      if os.path.exists(f"{item}/README.md"):
-                          # Add to list: - [FolderName](./FolderName)
-                          projects.append(f"- [{item}](./{item})")
-
-          # Prepare the new Markdown content
-          # If projects exist, join them with newlines; otherwise show a placeholder
-          list_content = f"{start_marker}\n" + ("\n".join(projects) if projects else "No projects found yet.") + f"\n{end_marker}"
-
-          # Read the current README.md file
-          if os.path.exists(readme_file):
-              with open(readme_file, "r", encoding="utf-8") as f:
-                  content = f.read()
-          else:
-              # Create a basic README if it doesn't exist
-              content = f"# Portfolio\n\n## 📂 Projects\n{start_marker}\n{end_marker}"
-
-          # Use Regex to find the block between markers and replace it
-          pattern = re.compile(f"{re.escape(start_marker)}.*?{re.escape(end_marker)}", re.DOTALL)
           
-          if pattern.search(content):
-              new_content = pattern.sub(list_content, content)
+          # Collect all directories with README.md
+          project_dirs = []
+          for item in sorted(os.listdir('.')):
+              if os.path.isdir(item) and not item.startswith('.') and item != '.github':
+                  readme_path = os.path.join(item, 'README.md')
+                  if os.path.exists(readme_path):
+                      try:
+                          with open(readme_path, 'r', encoding='utf-8') as f:
+                              content = f.read()
+                              # Extract first H1 title
+                              match = re.search(r'^#\s+(.+)$', content, re.MULTILINE)
+                              title = match.group(1).strip() if match else item
+                              project_dirs.append((item, title))
+                      except Exception as e:
+                          print(f"Warning: Could not read {readme_path}: {e}")
+          
+          # Generate markdown list
+          md_list = ""
+          for dir_name, title in project_dirs:
+              md_list += f"- [{title}](./{dir_name})\n"
+          
+          # Read existing README.md
+          with open('README.md', 'r', encoding='utf-8') as f:
+              readme_content = f.read()
+          
+          start_marker = "<!-- PROJECTS-LIST:START -->"
+          end_marker = "<!-- PROJECTS-LIST:END -->"
+          
+          # Check if markers exist
+          if start_marker in readme_content and end_marker in readme_content:
+              # Replace content between markers
+              pattern = f"{re.escape(start_marker)}.*?{re.escape(end_marker)}"
+              replacement = f"{start_marker}\n{md_list}{end_marker}"
+              new_content = re.sub(pattern, replacement, readme_content, flags=re.DOTALL)
           else:
-              # If markers are missing, append the list to the end of the file
-              new_content = content + f"\n\n## 📂 Projects\n{list_content}"
-
-          # Write the updated content back to README.md only if it changed
-          if new_content.strip() != content.strip():
-              with open(readme_file, "w", encoding="utf-8") as f:
+              # Append markers and content to the end
+              new_content = readme_content.rstrip() + f"\n\n{start_marker}\n{md_list}{end_marker}\n"
+          
+          # Write back if changed
+          if new_content != readme_content:
+              with open('README.md', 'w', encoding='utf-8') as f:
                   f.write(new_content)
-              print("README.md has been updated.")
+              print("README.md updated successfully!")
           else:
-              print("No changes detected.")
+              print("No changes needed.")
+          
+          EOF
 
-      # Step 4: Commit and Push changes back to the repository
-      - name: Commit and Push
+      - name: Commit and push changes
+        if: success()
         run: |
-          # Configure Git user for the bot
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
-          # Stage the README file
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
           git add README.md
-          
-          # Commit only if there are changes.
-          # [skip ci] is CRITICAL: It stops the workflow from triggering itself in a loop.
-          git diff --quiet || (git commit -m "docs: auto-update project list [skip ci]" && git push)
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: Update projects list [skip ci]" # CRITICAL: Prevents infinite loop
+            git push
+            echo "Changes pushed successfully"
+          fi
