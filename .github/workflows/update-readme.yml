@@ -1,16 +1,16 @@
-name: Update Project List
+name: Update Projects List
 
 on:
   push:
     branches: [main, master]
-    paths-ignore: ['README.md']
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  update:
+  update-readme:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v3
       
@@ -18,13 +18,61 @@ jobs:
         with:
           python-version: '3.9'
           
-      - name: Run Python Script
-        run: python .github/scripts/update_readme.py
+      - name: Python ile Listeyi Guncelle
+        shell: python
+        run: |
+          import os, re
 
-      - name: Commit and Push
+          # AYARLAR
+          readme_file = "README.md"
+          start_tag = ""
+          end_tag = ""
+
+          # 1. Klasörleri Tara
+          projects = []
+          if os.path.exists("."):
+              for item in sorted(os.listdir(".")):
+                  # Sadece klasörleri al, gizli (.) olanları atla
+                  if os.path.isdir(item) and not item.startswith("."):
+                      # Eğer içinde README varsa proje kabul et
+                      if os.path.exists(f"{item}/README.md"):
+                          projects.append(f"- [{item}](./{item})")
+
+          # 2. Yeni İçeriği Hazırla
+          # Eğer proje yoksa boş bırakma, bilgi ver
+          list_content = f"{start_tag}\n" + ("\n".join(projects) if projects else "Henüz proje yok.") + f"\n{end_tag}"
+
+          # 3. Ana Dosyayı Oku veya Oluştur
+          if not os.path.exists(readme_file):
+              with open(readme_file, "w", encoding="utf-8") as f:
+                  f.write(f"# Portfolio\n\n## 📂 Projects\n{list_content}")
+              content = ""
+              print("README dosyası oluşturuldu.")
+          else:
+              with open(readme_file, "r", encoding="utf-8") as f:
+                  content = f.read()
+
+          # 4. İçeriği Değiştir (Regex ile Marker Arasını Bul)
+          pattern = re.compile(f"{re.escape(start_tag)}.*?{re.escape(end_tag)}", re.DOTALL)
+          
+          if pattern.search(content):
+              new_content = pattern.sub(list_content, content)
+          else:
+              # Marker yoksa dosyanın sonuna ekle
+              new_content = content + f"\n\n## 📂 Projects\n{list_content}"
+
+          # 5. Değişikliği Kaydet
+          if new_content.strip() != content.strip():
+              with open(readme_file, "w", encoding="utf-8") as f:
+                  f.write(new_content)
+              print("README dosyası güncellendi.")
+          else:
+              print("Değişiklik yok.")
+
+      - name: Git Commit ve Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add README.md
-          # Döngü Engelleyici 2: [skip ci] etiketi
-          git diff --quiet || (git commit -m "docs: update projects [skip ci]" && git push)
+          # [skip ci] etiketi sonsuz döngüyü %100 engeller
+          git diff --quiet || (git commit -m "docs: proje listesi guncellendi [skip ci]" && git push)
