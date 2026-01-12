@@ -12,14 +12,17 @@
 </p>
 
 ---
+## Introduction
 
 Simulation projects for Power Electronics circuits using MATLAB/Simulink.
 
----
-
 ## 📂 Projects
 
----
+<div id="list-start"></div>
+
+
+
+<div id="list-end"></div>
 
 ## Licenses
 
@@ -34,18 +37,3 @@ All **Images, Schematics & Presentations** inside this portfolio are licensed un
 
 ## Credits
 All credits, references, and used standard components are listed within the project descriptions respectively.
-
-<!-- PROJECTS-LIST:START -->
-- [Single-Phase Full-Wave Controlled Rectifier with RLE Load](./AC-DC_1Ph_FullWave_Controlled_Rectifier_RLE_Load)
-- [Single-Phase Half-Wave Controlled Rectifier with Freewheeling Diode (R-L-E Load)](./AC-DC_1Ph_HalfWave_Controlled_Rectifier_with_FWD_RLE_Load)
-- [Single-Phase Controlled Rectifier with Freewheeling Diode](./AC-DC_1Ph_HalfWave_Controlled_Rectifier_with_FWD_RL_Load)
-- [Single-Phase PWM Rectifier with Closed-Loop Control (IGBT)](./AC-DC_1Ph_PWM_Rectifier_Closed_Loop_IGBT)
-- [Single-Phase Controlled Rectifier (Thyristor) with Closed-Loop Control](./AC-DC_1Ph_Rectifier_Closed_Loop_Thyristor)
-- [Three-Phase Full-Wave Controlled Rectifier with Resistive Load](./AC-DC_3Ph_FullWave_Controlled_Rectifier_Resistive_Load)
-- [Three-Phase Full-Wave Rectifier with Source Inductance](./AC-DC_3Ph_FullWave_Rectifier_with_Source_Inductance)
-- [Three-Phase Half-Wave Controlled Rectifier with Resistive Load](./AC-DC_3Ph_HalfWave_Controlled_Rectifier_Resistive_Load)
-- [Three-Phase Half-Wave Rectifier with Source Inductance](./AC-DC_3Ph_HalfWave_Rectifier_with_Source_Inductance)
-- [Single-Phase Unipolar Inverter (H-Bridge DC-AC Converter)](./DC-AC_1Ph_Inverter_Unipolar)
-- [DC-DC Buck-Boost Converter (Step-Up/Step-Down)](./DC-DC_Buck_Boost_Converter_Open_Loop)
-- [DC-DC Buck Converter (Step-Down)](./DC-DC_Buck_Converter_Open_Loop)
-<!-- PROJECTS-LIST:END -->
