@@ -32,7 +32,6 @@ Simulation projects for Power Electronics circuits using MATLAB/Simulink.
 - [DC-AC_1Ph_Inverter_Unipolar](./DC-AC_1Ph_Inverter_Unipolar)
 - [DC-DC_Buck_Boost_Converter_Open_Loop](./DC-DC_Buck_Boost_Converter_Open_Loop)
 - [DC-DC_Buck_Converter_Open_Loop](./DC-DC_Buck_Converter_Open_Loop)
-- [Test-File-X](./Test-File-X)
 
 <div id="list-end"></div>
 
