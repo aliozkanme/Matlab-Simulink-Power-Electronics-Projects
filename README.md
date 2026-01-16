@@ -1,7 +1,7 @@
 <p align="center">
   <img height="80" src="logo_matlab&simulink.png" alt="Matlab Simulink Logo">
 </p>
-<h1 align="center">Matlab / Simulink Portfolio</h1>
+<h1 align="center">Matlab / Simulink Power Electronics Projects</h1>
 
 <p align="center">
   <a href="http://creativecommons.org/licenses/by-sa/4.0/">
