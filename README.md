@@ -11,16 +11,6 @@
   <img src="https://img.shields.io/github/last-commit/aliozkanme/Matlab-Simulink-Power-Electronics-Projects" alt="last commit"/>
 </p>
 
-<p align="left">
-  
-  
-  
-  
-  
-  
-  <img src="https://img.shields.io/github/last-commit/aliozkanme/Matlab-Simulink-Power-Electronics-Projects?style=flat-square" alt="last commit">
-</p>
-
 ---
 ## Introduction
 
