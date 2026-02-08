@@ -5,8 +5,20 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-lightgrey?style=flat-square&logo=creative-commons" alt="Creative Commons">
-  <img src="https://img.shields.io/badge/license-Apache%202.0-blue" alt="license"/>
+  <img src="https://img.shields.io/badge/Language-MATLAB-orange?style=flat-square&logo=matlab" alt="MATLAB">
+  <img src="https://img.shields.io/badge/Software-Simulink-0076A8?style=flat-square&logo=mathworks&logoColor=white" alt="Simulink">
+  <img src="https://img.shields.io/badge/Topic-Power_Electronics-green?style=flat-square" alt="Power Electronics">
   <img src="https://img.shields.io/github/last-commit/aliozkanme/Matlab-Simulink-Power-Electronics-Projects" alt="last commit"/>
+</p>
+
+<p align="left">
+  
+  
+  
+  
+  
+  
+  <img src="https://img.shields.io/github/last-commit/aliozkanme/Matlab-Simulink-Power-Electronics-Projects?style=flat-square" alt="last commit">
 </p>
 
 ---
